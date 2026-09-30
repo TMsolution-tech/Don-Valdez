@@ -1,0 +1,93 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { nowInShopTz } from '@/lib/time'
+
+interface Blocked {
+  date: string
+  reason: string | null
+}
+
+export function AdminBlocked() {
+  const [supabase] = useState(() => createClient())
+  const [rows, setRows] = useState<Blocked[]>([])
+  const [date, setDate] = useState(nowInShopTz().date)
+  const [reason, setReason] = useState('')
+  const [msg, setMsg] = useState('')
+  const [refreshKey, setRefreshKey] = useState(0)
+  const reload = () => setRefreshKey((k) => k + 1)
+
+  useEffect(() => {
+    let alive = true
+    supabase
+      .from('blocked_dates')
+      .select('*')
+      .gte('date', nowInShopTz().date)
+      .order('date')
+      .then(({ data }) => {
+        if (alive) setRows((data ?? []) as Blocked[])
+      })
+    return () => {
+      alive = false
+    }
+  }, [supabase, refreshKey])
+
+  async function add(e: React.FormEvent) {
+    e.preventDefault()
+    setMsg('')
+    const { error } = await supabase
+      .from('blocked_dates')
+      .insert({ date, reason: reason || null })
+    setMsg(error ? error.message : 'Día bloqueado')
+    setReason('')
+    reload()
+  }
+
+  async function remove(d: string) {
+    await supabase.from('blocked_dates').delete().eq('date', d)
+    reload()
+  }
+
+  const inputCls =
+    'rounded border border-line bg-white px-3 py-2 text-sm focus:border-verde-3 focus:outline-none'
+
+  return (
+    <section className="grid gap-8 lg:grid-cols-2">
+      <form onSubmit={add} className="flex flex-wrap items-end gap-3 self-start rounded-lg border border-line bg-card p-5">
+        <label className="text-xs text-ink-soft">
+          Fecha
+          <input required type="date" value={date} onChange={(e) => setDate(e.target.value)} className={`block ${inputCls}`} />
+        </label>
+        <label className="text-xs text-ink-soft">
+          Motivo (opcional)
+          <input maxLength={120} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Feriado, feria, etc." className={`block ${inputCls}`} />
+        </label>
+        <button type="submit" className="rounded bg-verde px-4 py-2 text-sm font-semibold text-crema hover:bg-verde-2">
+          Bloquear
+        </button>
+        {msg && <p className="w-full text-sm text-ink-soft">{msg}</p>}
+      </form>
+
+      <ul className="space-y-2">
+        {rows.length === 0 && (
+          <p className="text-sm text-ink-soft">No hay días bloqueados.</p>
+        )}
+        {rows.map((r) => (
+          <li key={r.date} className="flex items-center justify-between rounded-lg border border-line bg-card p-4 text-sm">
+            <div>
+              <p className="font-medium">{r.date}</p>
+              {r.reason && <p className="text-xs text-ink-soft">{r.reason}</p>}
+            </div>
+            <button
+              onClick={() => remove(r.date)}
+              className="rounded bg-red-100 px-3 py-1 text-xs text-red-800"
+            >
+              Quitar
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
