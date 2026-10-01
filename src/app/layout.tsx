@@ -18,6 +18,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Don Valdez · Barber Studio",
   description: "Reservá tu turno en Don Valdez Barber Studio — Salta, Argentina",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
