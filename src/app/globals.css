@@ -24,7 +24,7 @@
 }
 
 html {
-  color-scheme: light only; /* evita el auto-dark-mode de Chrome/Safari */
+  color-scheme: only light; /* bloquea el auto-dark-mode del navegador */
 }
 
 body {
