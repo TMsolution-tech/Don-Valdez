@@ -335,12 +335,16 @@ export function BookingWizard({
               <input
                 required
                 type="tel"
-                maxLength={30}
+                inputMode="numeric"
+                maxLength={15}
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Teléfono / WhatsApp"
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                placeholder="WhatsApp — ej: 3874123456"
                 className={inputCls}
               />
+              <p className="-mt-2 text-xs text-ink-soft/70">
+                Solo números, con código de área (sin 0 ni 15). Ej: 3874123456
+              </p>
               <input
                 type="email"
                 maxLength={120}

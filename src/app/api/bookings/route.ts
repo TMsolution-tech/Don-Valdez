@@ -9,7 +9,16 @@ const bookingSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   time: z.string().regex(/^\d{2}:\d{2}(:\d{2})?$/),
   name: z.string().trim().min(2, 'Ingresá tu nombre').max(80),
-  phone: z.string().trim().min(6, 'Ingresá un teléfono válido').max(30),
+  phone: z
+    .string()
+    .trim()
+    .transform((s) => s.replace(/\D/g, ''))
+    .pipe(
+      z
+        .string()
+        .min(10, 'Ingresá un celular válido — solo números, ej: 3874123456')
+        .max(15, 'Ingresá un celular válido — solo números, ej: 3874123456')
+    ),
   email: z.email('Email inválido').max(120).optional().or(z.literal('')),
   website: z.string().max(0).optional(), // honeypot
 })
