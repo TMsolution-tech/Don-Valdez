@@ -1,6 +1,10 @@
 import Image from 'next/image'
 
-const INSTAGRAM_URL = 'https://www.instagram.com/donvaldez.studio/'
+const SOCIALS = [
+  { label: '@donvaldez.studio', url: 'https://www.instagram.com/donvaldez.studio/' },
+  { label: '@juanvaldeez.7', url: 'https://www.instagram.com/juanvaldeez.7/' },
+  { label: 'TikTok @don.valdez.studio', url: 'https://www.tiktok.com/@don.valdez.studio' },
+]
 
 export function Footer() {
   return (
@@ -13,14 +17,19 @@ export function Footer() {
           height={399}
           className="h-12 w-auto"
         />
-        <a
-          href={INSTAGRAM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 text-sm text-ink-soft underline underline-offset-4 hover:text-salvia"
-        >
-          @donvaldez.studio
-        </a>
+        <div className="mt-2 flex flex-wrap justify-center gap-x-5 gap-y-1 text-sm">
+          {SOCIALS.map((s) => (
+            <a
+              key={s.url}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ink-soft underline underline-offset-4 hover:text-salvia"
+            >
+              {s.label}
+            </a>
+          ))}
+        </div>
         <p className="mt-6 text-xs text-ink-soft/60">
           Desarrollado por TM Soluciones Digitales
         </p>
