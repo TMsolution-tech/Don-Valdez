@@ -89,8 +89,8 @@ export function InfoSection({ hours }: { hours: BusinessHours[] }) {
               <span className="font-medium text-crema">Redes</span>
               <ul className="mt-1 space-y-1.5">
                 {SOCIALS.map((s) => (
-                  <li key={s.label} className="flex items-baseline gap-2">
-                    <span className="w-16 shrink-0 text-xs uppercase tracking-wide text-ink-soft">
+                  <li key={s.label} className="flex items-baseline gap-4">
+                    <span className="w-24 shrink-0 text-xs uppercase tracking-wide text-ink-soft">
                       {s.label}
                     </span>
                     <span className="flex flex-col gap-1">

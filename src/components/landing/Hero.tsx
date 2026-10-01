@@ -78,7 +78,7 @@ export function Hero() {
       </div>
 
       {/* franja de features */}
-      <div className="border-t border-rivera bg-pino/60">
+      <div className="border-t border-rivera bg-pino">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 lg:grid-cols-4">
           {FEATURES.map((f) => (
             <div key={f.title} className="flex items-start gap-3">
