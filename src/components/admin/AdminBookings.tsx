@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { BOOKING_STATUS_LABELS, type BookingStatus } from '@/lib/types'
+import { waLink } from '@/lib/whatsapp'
 
 interface Row {
   id: string
@@ -50,6 +51,17 @@ export function AdminBookings({ today }: { today: string }) {
   async function setStatus(id: string, status: BookingStatus) {
     await supabase.from('bookings').update({ status }).eq('id', id)
     reload()
+  }
+
+  function waConfirmLink(b: Row): string {
+    const [y, m, d] = b.booking_date.split('-').map(Number)
+    const fecha = new Intl.DateTimeFormat('es-AR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    }).format(new Date(y, m - 1, d))
+    const msg = `Hola ${b.client_name}! Te escribimos de Don Valdez Barber Studio. Tu turno quedó confirmado: ${b.services?.name ?? 'servicio'} — ${fecha} a las ${b.start_time.slice(0, 5)} hs. Te esperamos!`
+    return waLink(b.client_phone, msg)
   }
 
   return (
@@ -100,6 +112,16 @@ export function AdminBookings({ today }: { today: string }) {
                 {b.services?.name} · seña ${b.deposit_amount.toLocaleString('es-AR')}
               </span>
               <div className="flex gap-2 text-xs">
+                {b.client_phone && (
+                  <a
+                    href={waConfirmLink(b)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded bg-[#25d366] px-3 py-1 font-semibold text-white"
+                  >
+                    WhatsApp
+                  </a>
+                )}
                 {b.status === 'pending_payment' && (
                   <button
                     onClick={() => setStatus(b.id, 'confirmed')}
