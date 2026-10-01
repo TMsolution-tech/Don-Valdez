@@ -14,23 +14,21 @@ const DAY_NAMES = [
 const ORDER = [1, 2, 3, 4, 5, 6, 0]
 
 const MAPS_EMBED =
-  'https://www.google.com/maps/embed?pb=!4v1790880737207!6m8!1m7!1shQuCFKdZdYp-XHrJjQ2kWg!2m2!1d-24.78354147852886!2d-65.44801970228131!3f67.24135061316024!4f-6.4403666105966835!5f0.7820865974627469'
+  'https://maps.google.com/maps?q=-24.78354147852886,-65.44801970228131&z=17&output=embed'
 
 const SOCIALS = [
   {
     label: 'Instagram',
-    handle: '@donvaldez.studio',
-    url: 'https://www.instagram.com/donvaldez.studio/',
-  },
-  {
-    label: 'Instagram (Juan)',
-    handle: '@juanvaldeez.7',
-    url: 'https://www.instagram.com/juanvaldeez.7/',
+    links: [
+      { handle: '@donvaldez.studio', url: 'https://www.instagram.com/donvaldez.studio/' },
+      { handle: '@juanvaldeez.7', url: 'https://www.instagram.com/juanvaldeez.7/' },
+    ],
   },
   {
     label: 'TikTok',
-    handle: '@don.valdez.studio',
-    url: 'https://www.tiktok.com/@don.valdez.studio',
+    links: [
+      { handle: '@don.valdez.studio', url: 'https://www.tiktok.com/@don.valdez.studio' },
+    ],
   },
 ]
 
@@ -91,18 +89,23 @@ export function InfoSection({ hours }: { hours: BusinessHours[] }) {
               <span className="font-medium text-crema">Redes</span>
               <ul className="mt-1 space-y-1.5">
                 {SOCIALS.map((s) => (
-                  <li key={s.url} className="flex items-baseline gap-2">
-                    <span className="text-xs uppercase tracking-wide text-ink-soft">
+                  <li key={s.label} className="flex items-baseline gap-2">
+                    <span className="w-16 shrink-0 text-xs uppercase tracking-wide text-ink-soft">
                       {s.label}
                     </span>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-salvia underline underline-offset-4 hover:text-crema"
-                    >
-                      {s.handle}
-                    </a>
+                    <span className="flex flex-col gap-1">
+                      {s.links.map((l) => (
+                        <a
+                          key={l.url}
+                          href={l.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-salvia underline underline-offset-4 hover:text-crema"
+                        >
+                          {l.handle}
+                        </a>
+                      ))}
+                    </span>
                   </li>
                 ))}
               </ul>
