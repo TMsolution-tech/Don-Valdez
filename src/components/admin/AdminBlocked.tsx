@@ -80,7 +80,7 @@ export function AdminBlocked({ today }: { today: string }) {
             </div>
             <button
               onClick={() => remove(r.date)}
-              className="rounded bg-red-900/50 px-3 py-1 text-xs text-red-300"
+              className="rounded bg-red-100 px-3 py-1 text-xs text-red-700"
             >
               Quitar
             </button>

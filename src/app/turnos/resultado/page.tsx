@@ -16,7 +16,7 @@ export default async function ResultadoPage({
         <div className="mx-auto flex h-16 max-w-6xl items-center px-4">
           <Link href="/" aria-label="Don Valdez — inicio">
             <Image
-              src="/logo-light.png"
+              src="/logo.png"
               alt="Don Valdez — Barber Studio"
               width={807}
               height={399}

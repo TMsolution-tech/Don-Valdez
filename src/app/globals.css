@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta Don Valdez — verde oscuro + blanco/menta claro */
-  --color-bosque: #051f20; /* fondo página */
-  --color-pino: #0b2b26; /* superficies: nav, cards, footer */
-  --color-musgo: #163832; /* elevado: inputs, hover, badges */
-  --color-rivera: #235347; /* bordes */
-  --color-salvia: #aad8b8; /* acento claro: botones, links, selección */
-  --color-crema: #f4faf6; /* texto principal (blanco verdoso) */
+  /* Paleta Don Valdez — fondo blanco + verde oscuro */
+  --color-bosque: #f6f9f6; /* fondo página (blanco verdoso) */
+  --color-pino: #ffffff; /* superficies: nav, cards, footer */
+  --color-musgo: #e9f0ea; /* elevado: inputs, hover, badges */
+  --color-rivera: #cfe0d4; /* bordes */
+  --color-salvia: #1e4634; /* acento: botones, links, selección */
+  --color-crema: #122a1f; /* texto principal (verde casi negro) */
 
   --color-paper: var(--color-bosque);
   --color-card: var(--color-pino);
   --color-ink: var(--color-crema);
-  --color-ink-soft: #b0c8b9;
+  --color-ink-soft: #5b7064;
   --color-line: var(--color-rivera);
 
   --font-tag: var(--font-bebas), sans-serif; /* títulos */

@@ -48,7 +48,7 @@ export function AdminComments() {
           <li
             key={c.id}
             className={`rounded-lg border p-4 text-sm ${
-              c.is_approved ? 'border-rivera bg-pino' : 'border-red-900 bg-red-950/30'
+              c.is_approved ? 'border-rivera bg-pino' : 'border-red-200 bg-red-50'
             }`}
           >
             <p className="text-crema">{c.content}</p>
@@ -66,7 +66,7 @@ export function AdminComments() {
                 </button>
                 <button
                   onClick={() => remove(c.id)}
-                  className="rounded bg-red-900/50 px-3 py-1 text-red-300"
+                  className="rounded bg-red-100 px-3 py-1 text-red-700"
                 >
                   Borrar
                 </button>

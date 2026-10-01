@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="border-t border-rivera bg-bosque">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-12 text-center">
         <Image
-          src="/logo-light.png"
+          src="/logo.png"
           alt="Don Valdez — Barber Studio"
           width={807}
           height={399}

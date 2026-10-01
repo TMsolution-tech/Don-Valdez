@@ -141,7 +141,7 @@ export function AdminServices() {
               </button>
               <button
                 onClick={() => toggleActive(s)}
-                className={`rounded px-3 py-1 ${s.is_active ? 'bg-red-900/50 text-red-300' : 'bg-musgo text-salvia'}`}
+                className={`rounded px-3 py-1 ${s.is_active ? 'bg-red-100 text-red-700' : 'bg-musgo text-salvia'}`}
               >
                 {s.is_active ? 'Desactivar' : 'Activar'}
               </button>

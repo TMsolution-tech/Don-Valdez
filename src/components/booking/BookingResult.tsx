@@ -59,7 +59,7 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
       ? 'border-salvia bg-musgo'
       : status === 'pending_payment' || status === 'payment_review'
         ? 'border-rivera bg-pino'
-        : 'border-red-900 bg-red-950/40'
+        : 'border-red-200 bg-red-50'
 
   const title =
     status === 'confirmed'

@@ -10,7 +10,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm rounded-2xl border border-rivera bg-pino p-8 shadow-2xl shadow-black/40">
         <div className="flex justify-center">
           <Image
-            src="/logo-light.png"
+            src="/logo.png"
             alt="Don Valdez — Barber Studio"
             width={807}
             height={399}

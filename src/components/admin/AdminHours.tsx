@@ -123,7 +123,7 @@ export function AdminHours() {
                       </button>
                       <button
                         onClick={() => remove(h)}
-                        className="rounded bg-red-900/50 px-2 py-0.5 text-red-300"
+                        className="rounded bg-red-100 px-2 py-0.5 text-red-700"
                       >
                         Borrar
                       </button>

@@ -19,11 +19,11 @@ interface Row {
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
   confirmed: 'bg-musgo text-salvia',
-  pending_payment: 'bg-rivera/40 text-ink-soft',
-  cancelled: 'bg-red-900/50 text-red-300',
+  pending_payment: 'bg-rivera/50 text-ink-soft',
+  cancelled: 'bg-red-100 text-red-700',
   completed: 'bg-salvia text-bosque',
-  no_show: 'bg-rivera/40 text-ink',
-  payment_review: 'bg-red-900/60 text-red-200',
+  no_show: 'bg-rivera/50 text-ink',
+  payment_review: 'bg-red-100 text-red-800',
 }
 
 export function AdminBookings({ today }: { today: string }) {

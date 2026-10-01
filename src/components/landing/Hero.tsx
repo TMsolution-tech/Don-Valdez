@@ -66,7 +66,7 @@ export function Hero() {
         <div className="flex justify-center lg:justify-end">
           <div className="relative -rotate-2 rounded-3xl border border-rivera bg-pino p-8 shadow-2xl shadow-black/50 sm:p-10">
             <Image
-              src="/logo-light.png"
+              src="/logo.png"
               alt="Don Valdez — Barber Studio, Salta Argentina"
               width={807}
               height={399}

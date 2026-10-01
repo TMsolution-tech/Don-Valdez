@@ -35,7 +35,7 @@ export function AdminDashboard({ today }: { today: string }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Image
-            src="/logo-light.png"
+            src="/logo.png"
             alt="Don Valdez"
             width={807}
             height={399}
