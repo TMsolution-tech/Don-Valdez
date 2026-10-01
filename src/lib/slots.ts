@@ -1,6 +1,9 @@
 import { createAdminClient } from './supabase/admin'
 import { nowInShopTz, toMinutes, toTimeStr, SLOT_STEP_MIN } from './time'
 
+// Cada turno bloquea mínimo este lapso, aunque el servicio sea más corto
+const MIN_BLOCK_MIN = 60
+
 export interface SlotInfo {
   time: string // "HH:MM"
   available: boolean
@@ -60,10 +63,10 @@ export async function getDayAvailability(
   const nowMs = Date.now()
   const busy = ((bookings ?? []) as BookingRow[])
     .filter((b) => occupiesGrid(b, nowMs))
-    .map((b) => ({
-      start: toMinutes(b.start_time),
-      end: toMinutes(b.end_time),
-    }))
+    .map((b) => {
+      const start = toMinutes(b.start_time)
+      return { start, end: Math.max(toMinutes(b.end_time), start + MIN_BLOCK_MIN) }
+    })
 
   const now = nowInShopTz()
   const isToday = date === now.date
