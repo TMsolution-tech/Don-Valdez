@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Rubik_Wet_Paint, Inter } from "next/font/google";
+import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 
-// Tipografía estilo logo (graffiti/spray) — para títulos
-const rubikWet = Rubik_Wet_Paint({
-  variable: "--font-rubik-wet",
+// Si llega el archivo .ttf/.otf de la fuente original de la marca,
+// se reemplaza por next/font/local en src/app/fonts/.
+const tagFont = Bebas_Neue({
+  variable: "--font-bebas",
   weight: "400",
   subsets: ["latin"],
 });
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${rubikWet.variable} ${inter.variable} h-full antialiased`}
+      className={`${tagFont.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

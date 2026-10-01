@@ -10,24 +10,24 @@ const FEATURES = [
     ),
   },
   {
-    title: 'Trabajo de precisión',
-    text: 'Cada corte, terminado a navaja.',
-    icon: (
-      <path d="M6 9l6 6M14 6l-8 8M4 4l4 4M16 4l4 4M20 20l-6-6" />
-    ),
-  },
-  {
-    title: 'Ambiente premium',
-    text: 'Un espacio pensado para vos.',
-    icon: (
-      <path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3Z" />
-    ),
-  },
-  {
     title: 'Pago facilitado',
     text: 'Seña online con Mercado Pago.',
     icon: (
       <path d="M3 7h18v10H3zM3 10h18" />
+    ),
+  },
+  {
+    title: 'Profesionalidad',
+    text: 'Atención de primer nivel, siempre.',
+    icon: (
+      <path d="M12 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM9.5 13 8 20l4-2.2L16 20l-1.5-7" />
+    ),
+  },
+  {
+    title: 'Buenos mates y buena charla',
+    text: 'Te esperamos con los mates listos.',
+    icon: (
+      <path d="M6 10h11a5.5 5.5 0 0 1-5.5 7h0A5.5 5.5 0 0 1 6 10ZM16.5 3l-4 7" />
     ),
   },
 ]
@@ -37,10 +37,7 @@ export function Hero() {
     <section className="bg-bosque">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:py-28 lg:grid-cols-2">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-salvia">
-            Estilo · Tradición · Barbería
-          </p>
-          <h1 className="mt-4 font-tag text-6xl leading-[0.95] text-crema sm:text-7xl">
+          <h1 className="font-tag text-6xl leading-[0.95] text-crema sm:text-7xl">
             Tu estilo,
             <br />
             <span className="text-salvia">nuestra firma.</span>

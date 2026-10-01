@@ -15,8 +15,8 @@
   --color-ink-soft: #93a99b;
   --color-line: var(--color-rivera);
 
-  --font-tag: var(--font-rubik-wet), cursive; /* títulos — estilo del logo */
-  --font-display: var(--font-rubik-wet), cursive;
+  --font-tag: var(--font-bebas), sans-serif; /* títulos */
+  --font-display: var(--font-bebas), sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
