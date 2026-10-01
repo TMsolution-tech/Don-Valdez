@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { nowInShopTz } from '@/lib/time'
 import { BOOKING_STATUS_LABELS, type BookingStatus } from '@/lib/types'
 
 interface Row {
@@ -26,9 +25,9 @@ const STATUS_COLORS: Record<BookingStatus, string> = {
   payment_review: 'bg-gold text-white',
 }
 
-export function AdminBookings() {
+export function AdminBookings({ today }: { today: string }) {
   const [supabase] = useState(() => createClient())
-  const [date, setDate] = useState(nowInShopTz().date)
+  const [date, setDate] = useState(today)
   const [rows, setRows] = useState<Row[] | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
   const reload = () => setRefreshKey((k) => k + 1)

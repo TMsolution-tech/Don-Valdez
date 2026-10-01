@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { nowInShopTz } from '@/lib/time'
 import type { Service } from '@/lib/types'
 import { BookingWizard } from '@/components/booking/BookingWizard'
 
@@ -10,17 +11,30 @@ export default async function TurnosPage({
 }: PageProps<'/turnos'>) {
   const { servicio } = await searchParams
   const supabase = await createClient()
-  const { data: services } = await supabase
-    .from('services')
-    .select('*')
-    .eq('is_active', true)
-    .order('sort_order')
+  const todayStr = nowInShopTz().date
+
+  const [{ data: services }, { data: hours }, { data: blocked }] =
+    await Promise.all([
+      supabase
+        .from('services')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order'),
+      supabase.from('business_hours').select('weekday').eq('is_active', true),
+      supabase
+        .from('blocked_dates')
+        .select('date')
+        .gte('date', todayStr),
+    ])
 
   const list = (services ?? []) as Service[]
   const preselected =
     typeof servicio === 'string' && list.some((s) => s.id === servicio)
       ? servicio
       : null
+
+  const openWeekdays = [...new Set((hours ?? []).map((h) => h.weekday))]
+  const blockedDates = (blocked ?? []).map((b) => b.date)
 
   return (
     <main className="min-h-full bg-paper">
@@ -42,7 +56,13 @@ export default async function TurnosPage({
           Elegí servicio, día y horario. Confirmás el turno pagando la seña con
           Mercado Pago.
         </p>
-        <BookingWizard services={list} preselectedServiceId={preselected} />
+        <BookingWizard
+          services={list}
+          preselectedServiceId={preselected}
+          todayStr={todayStr}
+          openWeekdays={openWeekdays}
+          blockedDates={blockedDates}
+        />
       </div>
     </main>
   )

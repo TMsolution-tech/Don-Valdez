@@ -2,17 +2,16 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { nowInShopTz } from '@/lib/time'
 
 interface Blocked {
   date: string
   reason: string | null
 }
 
-export function AdminBlocked() {
+export function AdminBlocked({ today }: { today: string }) {
   const [supabase] = useState(() => createClient())
   const [rows, setRows] = useState<Blocked[]>([])
-  const [date, setDate] = useState(nowInShopTz().date)
+  const [date, setDate] = useState(today)
   const [reason, setReason] = useState('')
   const [msg, setMsg] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
@@ -23,7 +22,7 @@ export function AdminBlocked() {
     supabase
       .from('blocked_dates')
       .select('*')
-      .gte('date', nowInShopTz().date)
+      .gte('date', today)
       .order('date')
       .then(({ data }) => {
         if (alive) setRows((data ?? []) as Blocked[])
@@ -31,7 +30,7 @@ export function AdminBlocked() {
     return () => {
       alive = false
     }
-  }, [supabase, refreshKey])
+  }, [supabase, today, refreshKey])
 
   async function add(e: React.FormEvent) {
     e.preventDefault()

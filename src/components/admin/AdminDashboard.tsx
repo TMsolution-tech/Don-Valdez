@@ -19,7 +19,7 @@ const TABS = [
 
 type Tab = (typeof TABS)[number]['id']
 
-export function AdminDashboard() {
+export function AdminDashboard({ today }: { today: string }) {
   const router = useRouter()
   const [tab, setTab] = useState<Tab>('turnos')
 
@@ -60,10 +60,10 @@ export function AdminDashboard() {
       </nav>
 
       <div className="mt-6">
-        {tab === 'turnos' && <AdminBookings />}
+        {tab === 'turnos' && <AdminBookings today={today} />}
         {tab === 'servicios' && <AdminServices />}
         {tab === 'horarios' && <AdminHours />}
-        {tab === 'bloqueos' && <AdminBlocked />}
+        {tab === 'bloqueos' && <AdminBlocked today={today} />}
         {tab === 'comentarios' && <AdminComments />}
       </div>
     </div>

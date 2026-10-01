@@ -2,17 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { Service } from '@/lib/types'
-import {
-  BOOKING_WINDOW_DAYS,
-  addDays,
-  nowInShopTz,
-} from '@/lib/time'
-
-const DAY_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
-const MONTH_SHORT = [
-  'ene', 'feb', 'mar', 'abr', 'may', 'jun',
-  'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
-]
+import { BOOKING_WINDOW_DAYS } from '@/lib/time'
+import { Calendar } from './Calendar'
 
 interface SlotInfo {
   time: string
@@ -24,21 +15,18 @@ interface DayAvailability {
   slots: SlotInfo[]
 }
 
-function dayLabel(dateStr: string) {
-  const d = new Date(`${dateStr}T12:00:00Z`)
-  return {
-    day: DAY_SHORT[d.getUTCDay()],
-    num: d.getUTCDate(),
-    month: MONTH_SHORT[d.getUTCMonth()],
-  }
-}
-
 export function BookingWizard({
   services,
   preselectedServiceId,
+  todayStr,
+  openWeekdays,
+  blockedDates,
 }: {
   services: Service[]
   preselectedServiceId: string | null
+  todayStr: string
+  openWeekdays: number[]
+  blockedDates: string[]
 }) {
   const [serviceId, setServiceId] = useState<string | null>(preselectedServiceId)
   const [date, setDate] = useState<string | null>(null)
@@ -56,16 +44,10 @@ export function BookingWizard({
   const [error, setError] = useState('')
 
   const service = services.find((s) => s.id === serviceId) ?? null
+  const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates])
   const slotsKey = service && date ? `${service.id}|${date}` : null
   const day = slotsKey && slotsResp?.key === slotsKey ? slotsResp.data : null
   const loadingSlots = !!slotsKey && !day
-
-  const days = useMemo(() => {
-    const today = nowInShopTz().date
-    return Array.from({ length: BOOKING_WINDOW_DAYS }, (_, i) =>
-      addDays(today, i),
-    )
-  }, [])
 
   useEffect(() => {
     if (!service || !date) return
@@ -157,35 +139,18 @@ export function BookingWizard({
           <h2 className="font-display text-xl tracking-wide text-verde">
             2 · DÍA
           </h2>
-          <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-7">
-            {days.map((d) => {
-              const l = dayLabel(d)
-              return (
-                <button
-                  key={d}
-                  type="button"
-                  onClick={() => {
-                    setDate(d)
-                    setTime(null)
-                  }}
-                  className={`rounded-lg border px-2 py-2 text-center transition ${
-                    date === d
-                      ? 'border-verde bg-verde text-crema'
-                      : 'border-line bg-card hover:border-verde-3'
-                  }`}
-                >
-                  <span className="block text-[10px] uppercase opacity-70">
-                    {l.day}
-                  </span>
-                  <span className="block text-lg font-semibold leading-tight">
-                    {l.num}
-                  </span>
-                  <span className="block text-[10px] uppercase opacity-70">
-                    {l.month}
-                  </span>
-                </button>
-              )
-            })}
+          <div className="mt-3">
+            <Calendar
+              todayStr={todayStr}
+              openWeekdays={openWeekdays}
+              blockedDates={blockedSet}
+              selected={date}
+              maxDays={BOOKING_WINDOW_DAYS}
+              onSelect={(d) => {
+                setDate(d)
+                setTime(null)
+              }}
+            />
           </div>
         </section>
       )}
