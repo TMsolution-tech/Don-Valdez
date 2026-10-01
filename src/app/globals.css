@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta Don Valdez — verdes oscuros + salvia (ref. paleta del cliente) */
+  /* Paleta Don Valdez — verde oscuro + blanco/menta claro */
   --color-bosque: #051f20; /* fondo página */
   --color-pino: #0b2b26; /* superficies: nav, cards, footer */
   --color-musgo: #163832; /* elevado: inputs, hover, badges */
   --color-rivera: #235347; /* bordes */
-  --color-salvia: #8eb69b; /* acento: botones, links, selección */
-  --color-crema: #eaf4ed; /* texto principal */
+  --color-salvia: #aad8b8; /* acento claro: botones, links, selección */
+  --color-crema: #f4faf6; /* texto principal (blanco verdoso) */
 
   --color-paper: var(--color-bosque);
   --color-card: var(--color-pino);
   --color-ink: var(--color-crema);
-  --color-ink-soft: #93a99b;
+  --color-ink-soft: #b0c8b9;
   --color-line: var(--color-rivera);
 
   --font-tag: var(--font-bebas), sans-serif; /* títulos */

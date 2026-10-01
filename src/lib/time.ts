@@ -1,8 +1,9 @@
 // Zona horaria del negocio (Salta, Argentina — UTC-3 fijo, sin DST)
 export const SHOP_TZ = 'America/Argentina/Salta'
 
-// Granularidad de la grilla de turnos (debe coincidir con la migración SQL)
-export const SLOT_STEP_MIN = 15
+// Granularidad de la grilla ofrecida al cliente (los locks en DB siguen a 15
+// min, que cubre cualquier intervalo; esto solo define los horarios elegibles)
+export const SLOT_STEP_MIN = 30
 
 // Cuántos días hacia adelante se puede reservar
 export const BOOKING_WINDOW_DAYS = 30
