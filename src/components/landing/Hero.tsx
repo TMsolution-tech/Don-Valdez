@@ -37,25 +37,25 @@ export function Hero() {
     <section className="bg-bosque">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:py-28 lg:grid-cols-2">
         <div>
-          <h1 className="font-tag text-6xl leading-[0.95] text-crema sm:text-7xl">
+          <h1 className="font-tag text-6xl leading-[0.95] text-tinta sm:text-7xl">
             Tu estilo,
             <br />
-            <span className="text-salvia">nuestra firma.</span>
+            <span className="text-verde">nuestra firma.</span>
           </h1>
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-ink-soft sm:text-base">
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-tinta-soft sm:text-base">
             Reservá tu turno online y viví la mejor experiencia de barbería en
             Salta. Confirmás con la seña y listo.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
               href="/turnos"
-              className="rounded-lg bg-salvia px-8 py-3 text-sm font-bold uppercase tracking-wider text-bosque transition hover:bg-crema"
+              className="rounded-lg bg-verde px-8 py-3 text-sm font-bold uppercase tracking-wider text-crema transition hover:bg-tinta"
             >
               Agendar ahora
             </Link>
             <a
               href="#servicios"
-              className="rounded-lg border border-rivera px-8 py-3 text-sm font-semibold uppercase tracking-wider text-crema transition hover:border-salvia hover:text-salvia"
+              className="rounded-lg border border-verde/30 px-8 py-3 text-sm font-semibold uppercase tracking-wider text-verde transition hover:border-verde"
             >
               Ver servicios
             </a>
@@ -66,7 +66,7 @@ export function Hero() {
         <div className="flex justify-center lg:justify-end">
           <div className="relative -rotate-2 rounded-3xl border border-rivera bg-pino p-8 shadow-2xl shadow-black/50 sm:p-10">
             <Image
-              src="/logo.png"
+              src="/logo-white.png"
               alt="Don Valdez — Barber Studio, Salta Argentina"
               width={807}
               height={399}

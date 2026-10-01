@@ -39,11 +39,11 @@ export default async function TurnosPage({
 
   return (
     <main className="min-h-full bg-bosque">
-      <header className="border-b border-rivera bg-bosque/95">
+      <header className="border-b border-rivera bg-pino/95">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" aria-label="Don Valdez — inicio">
             <Image
-              src="/logo.png"
+              src="/logo-white.png"
               alt="Don Valdez — Barber Studio"
               width={807}
               height={399}
@@ -57,13 +57,13 @@ export default async function TurnosPage({
         </div>
       </header>
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-salvia">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-verde">
           Turnos online
         </p>
-        <h1 className="mt-2 font-tag text-5xl text-crema">
+        <h1 className="mt-2 font-tag text-5xl text-tinta">
           Reservá tu turno
         </h1>
-        <p className="mt-2 text-sm text-ink-soft">
+        <p className="mt-2 text-sm text-tinta-soft">
           Elegí servicio, fecha y horario. Confirmás el turno pagando la seña
           con Mercado Pago.
         </p>

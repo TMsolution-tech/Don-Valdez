@@ -4,13 +4,13 @@ import type { Service } from '@/lib/types'
 export function ServicesSection({ services }: { services: Service[] }) {
   return (
     <section id="servicios" className="mx-auto max-w-6xl px-4 py-20">
-      <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-salvia">
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-verde">
         Lo que hacemos
       </p>
-      <h2 className="mt-2 text-center font-tag text-5xl text-crema">
+      <h2 className="mt-2 text-center font-tag text-5xl text-tinta">
         Servicios
       </h2>
-      <p className="mt-3 text-center text-sm text-ink-soft">
+      <p className="mt-3 text-center text-sm text-tinta-soft">
         La reserva se confirma pagando la seña por Mercado Pago.
         El resto se abona en el local.
       </p>
@@ -39,14 +39,14 @@ export function ServicesSection({ services }: { services: Service[] }) {
             </div>
             <Link
               href={`/turnos?servicio=${s.id}`}
-              className="mt-5 rounded-lg border border-salvia/60 py-2.5 text-center text-sm font-semibold text-salvia transition group-hover:bg-salvia group-hover:text-bosque"
+              className="mt-5 rounded-lg border border-salvia/60 py-2.5 text-center text-sm font-semibold text-salvia transition group-hover:bg-salvia group-hover:text-pino"
             >
               Reservar
             </Link>
           </article>
         ))}
         {services.length === 0 && (
-          <p className="col-span-full text-center text-ink-soft">
+          <p className="col-span-full text-center text-tinta-soft">
             Servicios disponibles próximamente.
           </p>
         )}

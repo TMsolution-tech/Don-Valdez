@@ -88,7 +88,7 @@ export function AdminHours() {
             Cierra
             <input type="time" value={close} onChange={(e) => setClose(e.target.value)} className={`block ${inputCls}`} />
           </label>
-          <button type="submit" className="rounded-lg bg-salvia px-4 py-2 text-sm font-bold text-bosque hover:bg-crema">
+          <button type="submit" className="rounded-lg bg-salvia px-4 py-2 text-sm font-bold text-pino hover:bg-crema">
             Agregar
           </button>
         </form>

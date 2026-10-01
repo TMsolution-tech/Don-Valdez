@@ -129,7 +129,7 @@ export function BookingWizard({
               <span
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
                   i <= step
-                    ? 'bg-salvia text-bosque'
+                    ? 'bg-salvia text-pino'
                     : 'border border-rivera text-ink-soft'
                 }`}
               >
@@ -170,7 +170,7 @@ export function BookingWizard({
                     className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition ${
                       active
                         ? 'border-salvia bg-musgo'
-                        : 'border-rivera bg-bosque/40 hover:border-salvia/60'
+                        : 'border-rivera bg-musgo hover:border-salvia/60'
                     }`}
                   >
                     <span>
@@ -189,7 +189,7 @@ export function BookingWizard({
                       <span
                         className={`flex h-5 w-5 items-center justify-center rounded-full border-2 text-[10px] ${
                           active
-                            ? 'border-salvia bg-salvia text-bosque'
+                            ? 'border-salvia bg-salvia text-pino'
                             : 'border-rivera text-transparent'
                         }`}
                       >
@@ -245,9 +245,9 @@ export function BookingWizard({
                     onClick={() => setTime(s.time)}
                     className={`rounded-lg border px-1 py-2 text-xs font-medium transition ${
                       time === s.time
-                        ? 'border-salvia bg-salvia font-bold text-bosque'
+                        ? 'border-salvia bg-salvia font-bold text-pino'
                         : s.available
-                          ? 'border-rivera bg-bosque/40 text-crema hover:border-salvia/60'
+                          ? 'border-rivera bg-musgo text-crema hover:border-salvia/60'
                           : 'cursor-not-allowed border-rivera/40 text-ink-soft/30'
                     }`}
                   >
@@ -267,7 +267,7 @@ export function BookingWizard({
         {/* Columna 3 — resumen + datos */}
         <div>
           <SectionTitle>Resumen del turno</SectionTitle>
-          <div className="mt-4 rounded-xl border border-rivera bg-bosque/40 p-5">
+          <div className="mt-4 rounded-xl border border-rivera bg-musgo p-5">
             <dl className="space-y-3 text-sm">
               <div className="flex justify-between gap-3">
                 <dt className="text-ink-soft">Servicio</dt>
@@ -353,7 +353,7 @@ export function BookingWizard({
               <button
                 type="submit"
                 disabled={!ready || submitting}
-                className="w-full rounded-lg bg-salvia py-3 text-sm font-bold uppercase tracking-wider text-bosque transition hover:bg-crema disabled:cursor-not-allowed disabled:opacity-40"
+                className="w-full rounded-lg bg-salvia py-3 text-sm font-bold uppercase tracking-wider text-pino transition hover:bg-crema disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {submitting ? 'Generando pago…' : 'Confirmar y pagar seña'}
               </button>

@@ -4,10 +4,10 @@ import { CommentForm } from './CommentForm'
 export function CommentsSection({ comments }: { comments: Comment[] }) {
   return (
     <section id="comentarios" className="mx-auto max-w-3xl px-4 py-20">
-      <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-salvia">
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-verde">
         Ellos ya vinieron
       </p>
-      <h2 className="mt-2 text-center font-tag text-5xl text-crema">
+      <h2 className="mt-2 text-center font-tag text-5xl text-tinta">
         Lo que dicen
       </h2>
       <div className="mt-12 space-y-4">
@@ -23,7 +23,7 @@ export function CommentsSection({ comments }: { comments: Comment[] }) {
           </blockquote>
         ))}
         {comments.length === 0 && (
-          <p className="text-center text-sm text-ink-soft">
+          <p className="text-center text-sm text-tinta-soft">
             Todavía no hay comentarios. ¡Sé el primero!
           </p>
         )}

@@ -76,7 +76,7 @@ export function CommentForm() {
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="mt-4 rounded-lg bg-salvia px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-bosque transition hover:bg-crema disabled:opacity-50"
+        className="mt-4 rounded-lg bg-salvia px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-pino transition hover:bg-crema disabled:opacity-50"
       >
         {status === 'sending' ? 'Enviando…' : 'Publicar'}
       </button>

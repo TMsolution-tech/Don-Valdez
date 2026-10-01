@@ -21,8 +21,8 @@ const STATUS_COLORS: Record<BookingStatus, string> = {
   confirmed: 'bg-musgo text-salvia',
   pending_payment: 'bg-rivera/50 text-ink-soft',
   cancelled: 'bg-red-100 text-red-700',
-  completed: 'bg-salvia text-bosque',
-  no_show: 'bg-rivera/50 text-ink',
+  completed: 'bg-salvia text-pino',
+  no_show: 'bg-rivera/50 text-crema',
   payment_review: 'bg-red-100 text-red-800',
 }
 
@@ -125,7 +125,7 @@ export function AdminBookings({ today }: { today: string }) {
                 {b.status === 'pending_payment' && (
                   <button
                     onClick={() => setStatus(b.id, 'confirmed')}
-                    className="rounded bg-salvia px-3 py-1 font-semibold text-bosque"
+                    className="rounded bg-salvia px-3 py-1 font-semibold text-pino"
                   >
                     Confirmar manual
                   </button>
@@ -158,7 +158,7 @@ export function AdminBookings({ today }: { today: string }) {
                   <>
                     <button
                       onClick={() => setStatus(b.id, 'confirmed')}
-                      className="rounded bg-salvia px-3 py-1 font-semibold text-bosque"
+                      className="rounded bg-salvia px-3 py-1 font-semibold text-pino"
                     >
                       Confirmar
                     </button>

@@ -59,7 +59,7 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
       ? 'border-salvia bg-musgo'
       : status === 'pending_payment' || status === 'payment_review'
         ? 'border-rivera bg-pino'
-        : 'border-red-200 bg-red-50'
+        : 'border-red-800 bg-red-950/50'
 
   const title =
     status === 'confirmed'
@@ -102,7 +102,7 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
       )}
       <Link
         href="/"
-        className="mt-6 inline-block rounded-lg bg-salvia px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-bosque hover:bg-crema"
+        className="mt-6 inline-block rounded-lg bg-salvia px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-pino hover:bg-crema"
       >
         Volver al inicio
       </Link>

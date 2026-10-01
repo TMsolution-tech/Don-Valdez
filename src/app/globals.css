@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta Don Valdez — fondo blanco + verde oscuro */
+  /* Paleta Don Valdez — página blanca, superficies verde oscuro */
   --color-bosque: #f6f9f6; /* fondo página (blanco verdoso) */
-  --color-pino: #ffffff; /* superficies: nav, cards, footer */
-  --color-musgo: #e9f0ea; /* elevado: inputs, hover, badges */
-  --color-rivera: #cfe0d4; /* bordes */
-  --color-salvia: #1e4634; /* acento: botones, links, selección */
-  --color-crema: #122a1f; /* texto principal (verde casi negro) */
+  --color-pino: #123527; /* superficies: nav, cards, footer */
+  --color-musgo: #1d4534; /* elevado dentro de verde: inputs, sub-paneles */
+  --color-rivera: #2c5a45; /* bordes sobre verde */
+  --color-salvia: #aad8b8; /* acento menta (sobre verde) */
+  --color-crema: #f2f8f4; /* texto claro sobre verde */
+  --color-tinta: #122a1f; /* texto oscuro sobre blanco */
+  --color-verde: #1e4634; /* acento verde oscuro sobre blanco */
+  --color-tinta-soft: #5a7063; /* texto secundario sobre blanco */
 
   --color-paper: var(--color-bosque);
   --color-card: var(--color-pino);
-  --color-ink: var(--color-crema);
-  --color-ink-soft: #5b7064;
+  --color-ink: var(--color-tinta);
+  --color-ink-soft: #a9c6b4; /* texto secundario sobre verde */
   --color-line: var(--color-rivera);
 
   --font-tag: var(--font-bebas), sans-serif; /* títulos */
@@ -22,7 +25,7 @@
 
 body {
   background: var(--color-bosque);
-  color: var(--color-crema);
+  color: var(--color-tinta);
   font-family: var(--font-body);
 }
 

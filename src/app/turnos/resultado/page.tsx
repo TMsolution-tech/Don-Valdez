@@ -12,11 +12,11 @@ export default async function ResultadoPage({
 
   return (
     <main className="flex min-h-full flex-1 flex-col bg-bosque">
-      <header className="border-b border-rivera bg-bosque/95">
+      <header className="border-b border-rivera bg-pino/95">
         <div className="mx-auto flex h-16 max-w-6xl items-center px-4">
           <Link href="/" aria-label="Don Valdez — inicio">
             <Image
-              src="/logo.png"
+              src="/logo-white.png"
               alt="Don Valdez — Barber Studio"
               width={807}
               height={399}
@@ -30,7 +30,7 @@ export default async function ResultadoPage({
         {bookingId ? (
           <BookingResult bookingId={bookingId} />
         ) : (
-          <p className="text-center text-ink-soft">
+          <p className="text-center text-tinta-soft">
             Falta la referencia del turno.
           </p>
         )}

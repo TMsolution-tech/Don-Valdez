@@ -66,7 +66,7 @@ export function Calendar({
     'flex h-8 w-8 items-center justify-center rounded-full text-salvia transition hover:bg-musgo disabled:opacity-30 disabled:hover:bg-transparent'
 
   return (
-    <div className="rounded-xl border border-rivera bg-bosque/40 p-4">
+    <div className="rounded-xl border border-rivera bg-musgo p-4">
       <div className="flex items-center justify-between px-1">
         <h4 className="text-sm font-semibold text-crema">
           {MONTHS[cursor.m]} {cursor.y}
@@ -113,7 +113,7 @@ export function Calendar({
               onClick={() => onSelect(dateStr)}
               className={`aspect-square rounded-lg text-xs transition ${
                 selected === dateStr
-                  ? 'bg-salvia font-bold text-bosque'
+                  ? 'bg-salvia font-bold text-pino'
                   : isDisabled(dateStr)
                     ? 'cursor-not-allowed text-ink-soft/25'
                     : 'text-crema hover:bg-musgo'

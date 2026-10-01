@@ -62,7 +62,7 @@ export function AdminBlocked({ today }: { today: string }) {
           Motivo (opcional)
           <input maxLength={120} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Feriado, feria, etc." className={`block ${inputCls}`} />
         </label>
-        <button type="submit" className="rounded-lg bg-salvia px-4 py-2 text-sm font-bold text-bosque hover:bg-crema">
+        <button type="submit" className="rounded-lg bg-salvia px-4 py-2 text-sm font-bold text-pino hover:bg-crema">
           Bloquear
         </button>
         {msg && <p className="w-full text-sm text-ink-soft">{msg}</p>}

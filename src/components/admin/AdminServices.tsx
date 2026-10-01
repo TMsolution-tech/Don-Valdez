@@ -112,7 +112,7 @@ export function AdminServices() {
         </div>
         {msg && <p className="text-sm text-ink-soft">{msg}</p>}
         <div className="flex gap-2">
-          <button type="submit" className="rounded-lg bg-salvia px-5 py-2 text-sm font-bold text-bosque hover:bg-crema">
+          <button type="submit" className="rounded-lg bg-salvia px-5 py-2 text-sm font-bold text-pino hover:bg-crema">
             Guardar
           </button>
           {editingId && (

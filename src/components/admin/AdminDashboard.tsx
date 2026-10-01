@@ -41,7 +41,7 @@ export function AdminDashboard({ today }: { today: string }) {
             height={399}
             className="h-8 w-auto"
           />
-          <h1 className="font-tag text-3xl text-crema">Panel</h1>
+          <h1 className="font-tag text-3xl text-tinta">Panel</h1>
         </div>
         <button
           onClick={signOut}
@@ -58,7 +58,7 @@ export function AdminDashboard({ today }: { today: string }) {
             onClick={() => setTab(t.id)}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
               tab === t.id
-                ? 'bg-salvia text-bosque'
+                ? 'bg-salvia text-pino'
                 : 'bg-pino text-ink-soft border border-rivera hover:border-salvia'
             }`}
           >

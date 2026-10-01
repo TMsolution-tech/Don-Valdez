@@ -52,7 +52,7 @@ export function AdminLoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-salvia py-2.5 text-sm font-bold text-bosque hover:bg-crema disabled:opacity-50"
+        className="w-full rounded-lg bg-salvia py-2.5 text-sm font-bold text-pino hover:bg-crema disabled:opacity-50"
       >
         {loading ? 'Ingresando…' : 'Ingresar'}
       </button>
