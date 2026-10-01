@@ -48,7 +48,7 @@ export function AdminComments() {
           <li
             key={c.id}
             className={`rounded-lg border p-4 text-sm ${
-              c.is_approved ? 'border-rivera bg-pino' : 'border-red-200 bg-red-50'
+              c.is_approved ? 'border-rivera bg-pino' : 'border-red-800 bg-pino'
             }`}
           >
             <p className="text-crema">{c.content}</p>

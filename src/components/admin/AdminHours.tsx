@@ -111,7 +111,7 @@ export function AdminHours() {
               <ul className="mt-1 space-y-1">
                 {dayRows.map((h) => (
                   <li key={`${h.weekday}-${h.open_time}`} className="flex items-center justify-between">
-                    <span className={h.is_active ? '' : 'text-ink-soft line-through'}>
+                    <span className={h.is_active ? 'text-crema' : 'text-ink-soft line-through'}>
                       {h.open_time.slice(0, 5)} – {h.close_time.slice(0, 5)}
                     </span>
                     <span className="flex gap-2 text-xs">

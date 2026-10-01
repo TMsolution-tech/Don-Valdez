@@ -98,7 +98,7 @@ export function AdminBookings({ today }: { today: string }) {
                 <span className="text-lg font-bold text-salvia">
                   {b.start_time.slice(0, 5)}–{b.end_time.slice(0, 5)}
                 </span>
-                <span className="ml-3 font-medium">{b.client_name}</span>
+                <span className="ml-3 font-medium text-crema">{b.client_name}</span>
                 <span className="ml-2 text-ink-soft">{b.client_phone}</span>
               </div>
               <span
