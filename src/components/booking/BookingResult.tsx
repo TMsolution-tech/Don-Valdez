@@ -38,7 +38,7 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
 
   if (failed) {
     return (
-      <p className="text-center text-sm text-red-700">
+      <p className="text-center text-sm text-red-400">
         No pudimos consultar el estado del turno. Si ya pagaste, contactanos por
         Instagram.
       </p>
@@ -56,53 +56,53 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
   const { status } = data
   const box =
     status === 'confirmed'
-      ? 'border-verde-3 bg-verde-soft text-verde'
+      ? 'border-salvia bg-musgo'
       : status === 'pending_payment' || status === 'payment_review'
-        ? 'border-gold bg-crema text-ink'
-        : 'border-red-300 bg-red-50 text-red-800'
+        ? 'border-rivera bg-pino'
+        : 'border-red-900 bg-red-950/40'
 
   const title =
     status === 'confirmed'
-      ? '¡TURNO CONFIRMADO!'
+      ? '¡Turno confirmado!'
       : status === 'pending_payment'
-        ? 'ESPERANDO EL PAGO…'
+        ? 'Esperando el pago…'
         : status === 'payment_review'
-          ? 'PAGO EN REVISIÓN'
-          : 'EL TURNO NO QUEDÓ CONFIRMADO'
+          ? 'Pago en revisión'
+          : 'El turno no quedó confirmado'
 
   return (
-    <div className={`rounded-lg border p-6 text-center ${box}`}>
-      <h1 className="font-display text-4xl tracking-wider">{title}</h1>
-      <p className="mt-3 text-sm">
+    <div className={`rounded-2xl border p-8 text-center ${box}`}>
+      <h1 className="font-tag text-4xl text-crema">{title}</h1>
+      <p className="mt-4 text-sm text-crema">
         {data.service_name} · {data.booking_date} · {data.start_time.slice(0, 5)}hs
       </p>
-      <p className="mt-1 text-xs uppercase tracking-wide opacity-70">
+      <p className="mt-1 text-xs uppercase tracking-wide text-ink-soft">
         Estado: {BOOKING_STATUS_LABELS[status]}
       </p>
       {status === 'confirmed' && (
-        <p className="mt-4 text-sm">
+        <p className="mt-4 text-sm text-ink-soft">
           Te esperamos. Si no podés venir, avisanos por Instagram con tiempo.
         </p>
       )}
       {status === 'pending_payment' && (
-        <p className="mt-4 text-sm">
+        <p className="mt-4 text-sm text-ink-soft">
           Si ya pagaste, la confirmación puede tardar unos segundos.
         </p>
       )}
       {status === 'payment_review' && (
-        <p className="mt-4 text-sm">
+        <p className="mt-4 text-sm text-ink-soft">
           Recibimos un pago pero el horario necesita revisión manual.
           Contactanos por Instagram.
         </p>
       )}
-      {(status === 'cancelled') && (
-        <p className="mt-4 text-sm">
+      {status === 'cancelled' && (
+        <p className="mt-4 text-sm text-ink-soft">
           El pago no se completó. Podés intentar reservar de nuevo.
         </p>
       )}
       <Link
         href="/"
-        className="mt-6 inline-block rounded bg-verde px-6 py-2 text-sm font-semibold text-crema hover:bg-verde-2"
+        className="mt-6 inline-block rounded-lg bg-salvia px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-bosque hover:bg-crema"
       >
         Volver al inicio
       </Link>

@@ -72,13 +72,13 @@ export function AdminServices() {
   }
 
   const inputCls =
-    'w-full rounded border border-line bg-white px-3 py-2 text-sm focus:border-verde-3 focus:outline-none'
+    'w-full rounded-lg border border-rivera bg-musgo px-3 py-2 text-sm text-crema placeholder:text-ink-soft/60 focus:border-salvia focus:outline-none'
 
   return (
     <section className="grid gap-8 lg:grid-cols-2">
-      <form onSubmit={save} className="space-y-3 rounded-lg border border-line bg-card p-5">
-        <h3 className="font-display text-xl tracking-wide text-verde">
-          {editingId ? 'EDITAR SERVICIO' : 'NUEVO SERVICIO'}
+      <form onSubmit={save} className="space-y-3 rounded-xl border border-rivera bg-pino p-5">
+        <h3 className="font-tag text-xl text-crema">
+          {editingId ? 'Editar servicio' : 'Nuevo servicio'}
         </h3>
         <input required maxLength={80} placeholder="Nombre" value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputCls} />
@@ -112,12 +112,12 @@ export function AdminServices() {
         </div>
         {msg && <p className="text-sm text-ink-soft">{msg}</p>}
         <div className="flex gap-2">
-          <button type="submit" className="rounded bg-verde px-5 py-2 text-sm font-semibold text-crema hover:bg-verde-2">
+          <button type="submit" className="rounded-lg bg-salvia px-5 py-2 text-sm font-bold text-bosque hover:bg-crema">
             Guardar
           </button>
           {editingId && (
             <button type="button" onClick={() => { setEditingId(null); setForm(EMPTY) }}
-              className="rounded border border-line px-5 py-2 text-sm">
+              className="rounded-lg border border-rivera px-5 py-2 text-sm text-ink-soft hover:border-salvia">
               Cancelar
             </button>
           )}
@@ -126,22 +126,22 @@ export function AdminServices() {
 
       <ul className="space-y-2">
         {rows.map((s) => (
-          <li key={s.id} className="flex items-center justify-between rounded-lg border border-line bg-card p-4 text-sm">
+          <li key={s.id} className="flex items-center justify-between rounded-lg border border-rivera bg-pino p-4 text-sm">
             <div>
-              <p className="font-medium">
-                {s.name} {!s.is_active && <span className="text-xs text-red-700">(inactivo)</span>}
+              <p className="font-medium text-crema">
+                {s.name} {!s.is_active && <span className="text-xs text-red-400">(inactivo)</span>}
               </p>
               <p className="text-xs text-ink-soft">
                 {s.duration_min} min · ${s.price.toLocaleString('es-AR')} · seña ${s.deposit.toLocaleString('es-AR')}
               </p>
             </div>
             <div className="flex gap-2 text-xs">
-              <button onClick={() => edit(s)} className="rounded border border-line px-3 py-1 hover:border-verde-3">
+              <button onClick={() => edit(s)} className="rounded border border-rivera px-3 py-1 text-ink-soft hover:border-salvia hover:text-salvia">
                 Editar
               </button>
               <button
                 onClick={() => toggleActive(s)}
-                className={`rounded px-3 py-1 ${s.is_active ? 'bg-red-100 text-red-800' : 'bg-verde-soft text-verde'}`}
+                className={`rounded px-3 py-1 ${s.is_active ? 'bg-red-900/50 text-red-300' : 'bg-musgo text-salvia'}`}
               >
                 {s.is_active ? 'Desactivar' : 'Activar'}
               </button>

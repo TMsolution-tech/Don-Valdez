@@ -66,12 +66,12 @@ export function AdminHours() {
   }
 
   const inputCls =
-    'rounded border border-line bg-white px-3 py-2 text-sm focus:border-verde-3 focus:outline-none'
+    'rounded-lg border border-rivera bg-musgo px-3 py-2 text-sm text-crema focus:border-salvia focus:outline-none'
 
   return (
     <section className="grid gap-8 lg:grid-cols-2">
       <div>
-        <form onSubmit={add} className="flex flex-wrap items-end gap-3 rounded-lg border border-line bg-card p-5">
+        <form onSubmit={add} className="flex flex-wrap items-end gap-3 rounded-xl border border-rivera bg-pino p-5">
           <label className="text-xs text-ink-soft">
             Día
             <select value={weekday} onChange={(e) => setWeekday(Number(e.target.value))} className={`block ${inputCls}`}>
@@ -88,7 +88,7 @@ export function AdminHours() {
             Cierra
             <input type="time" value={close} onChange={(e) => setClose(e.target.value)} className={`block ${inputCls}`} />
           </label>
-          <button type="submit" className="rounded bg-verde px-4 py-2 text-sm font-semibold text-crema hover:bg-verde-2">
+          <button type="submit" className="rounded-lg bg-salvia px-4 py-2 text-sm font-bold text-bosque hover:bg-crema">
             Agregar
           </button>
         </form>
@@ -103,8 +103,8 @@ export function AdminHours() {
         {ORDER.map((d) => {
           const dayRows = rows.filter((r) => r.weekday === d)
           return (
-            <li key={d} className="rounded-lg border border-line bg-card p-4 text-sm">
-              <p className="font-medium">{DAY_NAMES[d]}</p>
+            <li key={d} className="rounded-lg border border-rivera bg-pino p-4 text-sm">
+              <p className="font-medium text-crema">{DAY_NAMES[d]}</p>
               {dayRows.length === 0 && (
                 <p className="text-xs text-ink-soft">Cerrado</p>
               )}
@@ -117,13 +117,13 @@ export function AdminHours() {
                     <span className="flex gap-2 text-xs">
                       <button
                         onClick={() => toggle(h)}
-                        className="rounded border border-line px-2 py-0.5 hover:border-verde-3"
+                        className="rounded border border-rivera px-2 py-0.5 text-ink-soft hover:border-salvia hover:text-salvia"
                       >
                         {h.is_active ? 'Pausar' : 'Activar'}
                       </button>
                       <button
                         onClick={() => remove(h)}
-                        className="rounded bg-red-100 px-2 py-0.5 text-red-800"
+                        className="rounded bg-red-900/50 px-2 py-0.5 text-red-300"
                       >
                         Borrar
                       </button>

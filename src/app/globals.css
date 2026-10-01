@@ -1,29 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta verde + blanco + crema (ref. Universitario Rugby Club) */
-  --color-verde: #0e3b2c;
-  --color-verde-2: #14543e;
-  --color-verde-3: #1f7a56;
-  --color-verde-soft: #e3efe8;
-  --color-crema: #f3ecd9;
-  --color-paper: #faf7ee;
-  --color-card: #fffdf6;
-  --color-ink: #1c2620;
-  --color-ink-soft: #5a665e;
-  --color-line: #ddd3bc;
-  --color-gold: #a8873d;
-  --font-display: var(--font-bebas), "Arial Narrow", sans-serif;
+  /* Paleta Don Valdez — verdes oscuros + salvia (ref. paleta del cliente) */
+  --color-bosque: #051f20; /* fondo página */
+  --color-pino: #0b2b26; /* superficies: nav, cards, footer */
+  --color-musgo: #163832; /* elevado: inputs, hover, badges */
+  --color-rivera: #235347; /* bordes */
+  --color-salvia: #8eb69b; /* acento: botones, links, selección */
+  --color-crema: #eaf4ed; /* texto principal */
+
+  --color-paper: var(--color-bosque);
+  --color-card: var(--color-pino);
+  --color-ink: var(--color-crema);
+  --color-ink-soft: #93a99b;
+  --color-line: var(--color-rivera);
+
+  --font-tag: var(--font-rubik-wet), cursive; /* títulos — estilo del logo */
+  --font-display: var(--font-rubik-wet), cursive;
   --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--color-bosque);
+  color: var(--color-crema);
   font-family: var(--font-body);
 }
 
-.font-display {
-  font-family: var(--font-display);
-  letter-spacing: 0.02em;
+.font-tag {
+  font-family: var(--font-tag);
 }

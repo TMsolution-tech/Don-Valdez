@@ -63,14 +63,14 @@ export function Calendar({
   }
 
   const arrowCls =
-    'flex h-9 w-9 items-center justify-center rounded-full text-verde transition hover:bg-verde-soft disabled:opacity-30 disabled:hover:bg-transparent'
+    'flex h-8 w-8 items-center justify-center rounded-full text-salvia transition hover:bg-musgo disabled:opacity-30 disabled:hover:bg-transparent'
 
   return (
-    <div className="rounded-xl border border-line bg-card p-4 shadow-sm">
+    <div className="rounded-xl border border-rivera bg-bosque/40 p-4">
       <div className="flex items-center justify-between px-1">
-        <h3 className="font-display text-xl tracking-wider text-ink">
+        <h4 className="text-sm font-semibold text-crema">
           {MONTHS[cursor.m]} {cursor.y}
-        </h3>
+        </h4>
         <div className="flex gap-1">
           <button
             type="button"
@@ -97,7 +97,7 @@ export function Calendar({
         {WEEKDAYS.map((d) => (
           <span
             key={d}
-            className="pb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-soft"
+            className="pb-1 text-[10px] font-semibold uppercase tracking-wide text-ink-soft"
           >
             {d}
           </span>
@@ -111,15 +111,15 @@ export function Calendar({
               type="button"
               disabled={isDisabled(dateStr)}
               onClick={() => onSelect(dateStr)}
-              className={`aspect-square rounded-lg text-sm transition ${
+              className={`aspect-square rounded-lg text-xs transition ${
                 selected === dateStr
-                  ? 'bg-verde font-bold text-crema'
+                  ? 'bg-salvia font-bold text-bosque'
                   : isDisabled(dateStr)
-                    ? 'cursor-not-allowed text-ink-soft/35'
-                    : 'hover:bg-verde-soft text-ink'
+                    ? 'cursor-not-allowed text-ink-soft/25'
+                    : 'text-crema hover:bg-musgo'
               } ${
                 dateStr === todayStr && selected !== dateStr
-                  ? 'ring-1 ring-verde-3'
+                  ? 'ring-1 ring-salvia/60'
                   : ''
               }`}
             >

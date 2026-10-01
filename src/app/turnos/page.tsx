@@ -37,24 +37,27 @@ export default async function TurnosPage({
   const blockedDates = (blocked ?? []).map((b) => b.date)
 
   return (
-    <main className="min-h-full bg-paper">
-      <header className="border-b border-verde-2/40 bg-verde text-crema">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <Link href="/" className="font-display text-2xl tracking-wide">
-            DON VALDEZ
+    <main className="min-h-full bg-bosque">
+      <header className="border-b border-rivera bg-bosque/95">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+          <Link href="/" className="font-tag text-2xl text-crema">
+            Don Valdez
           </Link>
-          <Link href="/" className="text-sm text-crema/80 hover:text-gold">
+          <Link href="/" className="text-sm text-ink-soft hover:text-salvia">
             ← Volver
           </Link>
         </div>
       </header>
-      <div className="mx-auto max-w-2xl px-4 py-10">
-        <h1 className="font-display text-4xl tracking-wider text-verde">
-          RESERVÁ TU TURNO
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-salvia">
+          Turnos online
+        </p>
+        <h1 className="mt-2 font-tag text-5xl text-crema">
+          Reservá tu turno
         </h1>
-        <p className="mt-1 text-sm text-ink-soft">
-          Elegí servicio, día y horario. Confirmás el turno pagando la seña con
-          Mercado Pago.
+        <p className="mt-2 text-sm text-ink-soft">
+          Elegí servicio, fecha y horario. Confirmás el turno pagando la seña
+          con Mercado Pago.
         </p>
         <BookingWizard
           services={list}

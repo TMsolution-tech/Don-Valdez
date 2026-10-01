@@ -48,10 +48,10 @@ export function AdminComments() {
           <li
             key={c.id}
             className={`rounded-lg border p-4 text-sm ${
-              c.is_approved ? 'border-line bg-card' : 'border-red-200 bg-red-50/50'
+              c.is_approved ? 'border-rivera bg-pino' : 'border-red-900 bg-red-950/30'
             }`}
           >
-            <p>{c.content}</p>
+            <p className="text-crema">{c.content}</p>
             <div className="mt-2 flex items-center justify-between">
               <span className="text-xs text-ink-soft">
                 — {c.author_name} · {c.created_at.slice(0, 10)}
@@ -60,13 +60,13 @@ export function AdminComments() {
               <div className="flex gap-2 text-xs">
                 <button
                   onClick={() => toggle(c)}
-                  className="rounded border border-line px-3 py-1 hover:border-verde-3"
+                  className="rounded border border-rivera px-3 py-1 text-ink-soft hover:border-salvia hover:text-salvia"
                 >
                   {c.is_approved ? 'Ocultar' : 'Mostrar'}
                 </button>
                 <button
                   onClick={() => remove(c.id)}
-                  className="rounded bg-red-100 px-3 py-1 text-red-800"
+                  className="rounded bg-red-900/50 px-3 py-1 text-red-300"
                 >
                   Borrar
                 </button>

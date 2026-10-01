@@ -32,26 +32,26 @@ export function AdminDashboard({ today }: { today: string }) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl tracking-wider text-verde">
-          PANEL · DON VALDEZ
+        <h1 className="font-tag text-3xl text-crema">
+          Panel · Don Valdez
         </h1>
         <button
           onClick={signOut}
-          className="text-sm text-ink-soft hover:text-ink"
+          className="text-sm text-ink-soft hover:text-salvia"
         >
           Cerrar sesión
         </button>
       </div>
 
-      <nav className="mt-6 flex flex-wrap gap-2 border-b border-line pb-3">
+      <nav className="mt-6 flex flex-wrap gap-2 border-b border-rivera pb-3">
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
               tab === t.id
-                ? 'bg-verde text-crema'
-                : 'bg-card text-ink-soft border border-line hover:border-verde-3'
+                ? 'bg-salvia text-bosque'
+                : 'bg-pino text-ink-soft border border-rivera hover:border-salvia'
             }`}
           >
             {t.label}

@@ -32,10 +32,13 @@ export function CommentForm() {
     }
   }
 
+  const inputCls =
+    'w-full rounded-lg border border-rivera bg-musgo px-3 py-2.5 text-sm text-crema placeholder:text-ink-soft/60 focus:border-salvia focus:outline-none'
+
   return (
-    <form onSubmit={onSubmit} className="mt-8 rounded-lg border border-line bg-card p-5">
-      <h3 className="font-display text-xl tracking-wide text-verde">
-        DEJÁ TU COMENTARIO
+    <form onSubmit={onSubmit} className="mt-10 rounded-xl border border-rivera bg-pino p-6">
+      <h3 className="font-tag text-2xl text-crema">
+        Dejá tu comentario
       </h3>
       {/* honeypot: invisible para humanos */}
       <input
@@ -47,14 +50,14 @@ export function CommentForm() {
         autoComplete="off"
         aria-hidden="true"
       />
-      <div className="mt-3 grid gap-3">
+      <div className="mt-4 grid gap-3">
         <input
           required
           maxLength={80}
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Tu nombre"
-          className="rounded border border-line bg-white px-3 py-2 text-sm focus:border-verde-3 focus:outline-none"
+          className={inputCls}
         />
         <textarea
           required
@@ -63,17 +66,17 @@ export function CommentForm() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Contanos cómo te fue…"
-          className="rounded border border-line bg-white px-3 py-2 text-sm focus:border-verde-3 focus:outline-none"
+          className={inputCls}
         />
       </div>
-      {error && <p className="mt-2 text-sm text-red-700">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
       {status === 'ok' && (
-        <p className="mt-2 text-sm text-verde-3">¡Gracias por tu comentario!</p>
+        <p className="mt-2 text-sm text-salvia">¡Gracias por tu comentario!</p>
       )}
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="mt-3 rounded bg-verde px-5 py-2 text-sm font-semibold text-crema hover:bg-verde-2 disabled:opacity-50"
+        className="mt-4 rounded-lg bg-salvia px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-bosque transition hover:bg-crema disabled:opacity-50"
       >
         {status === 'sending' ? 'Enviando…' : 'Publicar'}
       </button>

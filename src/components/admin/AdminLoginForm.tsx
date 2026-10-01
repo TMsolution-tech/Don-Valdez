@@ -27,7 +27,7 @@ export function AdminLoginForm() {
   }
 
   const inputCls =
-    'w-full rounded border border-line bg-white px-3 py-2 text-sm text-ink focus:border-verde-3 focus:outline-none'
+    'w-full rounded-lg border border-rivera bg-musgo px-3 py-2 text-sm text-crema placeholder:text-ink-soft/60 focus:border-salvia focus:outline-none'
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
@@ -48,11 +48,11 @@ export function AdminLoginForm() {
         placeholder="Contraseña"
         className={inputCls}
       />
-      {error && <p className="text-sm text-red-700">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded bg-verde py-2.5 text-sm font-semibold text-crema hover:bg-verde-2 disabled:opacity-50"
+        className="w-full rounded-lg bg-salvia py-2.5 text-sm font-bold text-bosque hover:bg-crema disabled:opacity-50"
       >
         {loading ? 'Ingresando…' : 'Ingresar'}
       </button>

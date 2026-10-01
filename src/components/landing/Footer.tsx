@@ -2,18 +2,21 @@ const INSTAGRAM_URL = 'https://www.instagram.com/donvaldez.studio/'
 
 export function Footer() {
   return (
-    <footer className="bg-verde text-crema">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-4 py-10 text-center">
-        <span className="font-display text-3xl tracking-wider">DON VALDEZ</span>
+    <footer className="border-t border-rivera bg-bosque">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-12 text-center">
+        <span className="font-tag text-3xl text-crema">Don Valdez</span>
+        <span className="text-[10px] uppercase tracking-[0.35em] text-salvia">
+          Barber Studio · Salta
+        </span>
         <a
           href={INSTAGRAM_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-crema/80 underline underline-offset-2 hover:text-gold"
+          className="mt-2 text-sm text-ink-soft underline underline-offset-4 hover:text-salvia"
         >
           @donvaldez.studio
         </a>
-        <p className="mt-4 text-xs text-crema/50">
+        <p className="mt-6 text-xs text-ink-soft/60">
           Desarrollado por TM Soluciones Digitales
         </p>
       </div>

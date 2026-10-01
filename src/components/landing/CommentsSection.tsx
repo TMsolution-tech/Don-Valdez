@@ -4,17 +4,20 @@ import { CommentForm } from './CommentForm'
 export function CommentsSection({ comments }: { comments: Comment[] }) {
   return (
     <section id="comentarios" className="mx-auto max-w-3xl px-4 py-20">
-      <h2 className="text-center font-display text-4xl tracking-wider text-verde sm:text-5xl">
-        LO QUE DICEN LOS CLIENTES
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-salvia">
+        Ellos ya vinieron
+      </p>
+      <h2 className="mt-2 text-center font-tag text-5xl text-crema">
+        Lo que dicen
       </h2>
-      <div className="mt-10 space-y-4">
+      <div className="mt-12 space-y-4">
         {comments.map((c) => (
           <blockquote
             key={c.id}
-            className="rounded-lg border border-line bg-card p-4"
+            className="rounded-xl border border-rivera bg-pino p-5"
           >
-            <p className="text-sm text-ink">{c.content}</p>
-            <footer className="mt-2 text-xs font-medium text-verde-3">
+            <p className="text-sm leading-relaxed text-crema">{c.content}</p>
+            <footer className="mt-3 text-xs font-semibold uppercase tracking-wide text-salvia">
               — {c.author_name}
             </footer>
           </blockquote>

@@ -17,12 +17,12 @@ interface Row {
 }
 
 const STATUS_COLORS: Record<BookingStatus, string> = {
-  confirmed: 'bg-verde-soft text-verde',
-  pending_payment: 'bg-crema text-ink-soft',
-  cancelled: 'bg-red-100 text-red-800',
-  completed: 'bg-verde text-crema',
-  no_show: 'bg-gold/20 text-ink',
-  payment_review: 'bg-gold text-white',
+  confirmed: 'bg-musgo text-salvia',
+  pending_payment: 'bg-rivera/40 text-ink-soft',
+  cancelled: 'bg-red-900/50 text-red-300',
+  completed: 'bg-salvia text-bosque',
+  no_show: 'bg-rivera/40 text-ink',
+  payment_review: 'bg-red-900/60 text-red-200',
 }
 
 export function AdminBookings({ today }: { today: string }) {
@@ -59,11 +59,11 @@ export function AdminBookings({ today }: { today: string }) {
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="rounded border border-line bg-white px-3 py-2 text-sm"
+          className="rounded-lg border border-rivera bg-musgo px-3 py-2 text-sm text-crema"
         />
         <button
           onClick={reload}
-          className="rounded border border-line bg-card px-3 py-2 text-sm hover:border-verde-3"
+          className="rounded-lg border border-rivera bg-pino px-3 py-2 text-sm text-crema hover:border-salvia"
         >
           Actualizar
         </button>
@@ -79,11 +79,11 @@ export function AdminBookings({ today }: { today: string }) {
         {(rows ?? []).map((b) => (
           <li
             key={b.id}
-            className="rounded-lg border border-line bg-card p-4 text-sm"
+            className="rounded-lg border border-rivera bg-pino p-4 text-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <span className="font-display text-lg text-verde">
+                <span className="text-lg font-bold text-salvia">
                   {b.start_time.slice(0, 5)}–{b.end_time.slice(0, 5)}
                 </span>
                 <span className="ml-3 font-medium">{b.client_name}</span>
@@ -103,7 +103,7 @@ export function AdminBookings({ today }: { today: string }) {
                 {b.status === 'pending_payment' && (
                   <button
                     onClick={() => setStatus(b.id, 'confirmed')}
-                    className="rounded bg-verde px-3 py-1 text-crema"
+                    className="rounded bg-salvia px-3 py-1 font-semibold text-bosque"
                   >
                     Confirmar manual
                   </button>
@@ -120,13 +120,13 @@ export function AdminBookings({ today }: { today: string }) {
                   <>
                     <button
                       onClick={() => setStatus(b.id, 'completed')}
-                      className="rounded border border-verde px-3 py-1 text-verde"
+                      className="rounded border border-salvia px-3 py-1 text-salvia"
                     >
                       Completado
                     </button>
                     <button
                       onClick={() => setStatus(b.id, 'no_show')}
-                      className="rounded border border-gold px-3 py-1 text-gold"
+                      className="rounded border border-rivera px-3 py-1 text-ink-soft"
                     >
                       No vino
                     </button>
@@ -136,7 +136,7 @@ export function AdminBookings({ today }: { today: string }) {
                   <>
                     <button
                       onClick={() => setStatus(b.id, 'confirmed')}
-                      className="rounded bg-verde px-3 py-1 text-crema"
+                      className="rounded bg-salvia px-3 py-1 font-semibold text-bosque"
                     >
                       Confirmar
                     </button>

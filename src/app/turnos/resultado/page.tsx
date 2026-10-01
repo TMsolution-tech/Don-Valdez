@@ -10,11 +10,11 @@ export default async function ResultadoPage({
   const bookingId = typeof b === 'string' ? b : null
 
   return (
-    <main className="flex min-h-full flex-1 flex-col bg-paper">
-      <header className="border-b border-verde-2/40 bg-verde text-crema">
-        <div className="mx-auto flex h-16 max-w-5xl items-center px-4">
-          <Link href="/" className="font-display text-2xl tracking-wide">
-            DON VALDEZ
+    <main className="flex min-h-full flex-1 flex-col bg-bosque">
+      <header className="border-b border-rivera bg-bosque/95">
+        <div className="mx-auto flex h-16 max-w-6xl items-center px-4">
+          <Link href="/" className="font-tag text-2xl text-crema">
+            Don Valdez
           </Link>
         </div>
       </header>

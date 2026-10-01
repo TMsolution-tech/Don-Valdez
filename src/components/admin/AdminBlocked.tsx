@@ -49,11 +49,11 @@ export function AdminBlocked({ today }: { today: string }) {
   }
 
   const inputCls =
-    'rounded border border-line bg-white px-3 py-2 text-sm focus:border-verde-3 focus:outline-none'
+    'rounded-lg border border-rivera bg-musgo px-3 py-2 text-sm text-crema placeholder:text-ink-soft/60 focus:border-salvia focus:outline-none'
 
   return (
     <section className="grid gap-8 lg:grid-cols-2">
-      <form onSubmit={add} className="flex flex-wrap items-end gap-3 self-start rounded-lg border border-line bg-card p-5">
+      <form onSubmit={add} className="flex flex-wrap items-end gap-3 self-start rounded-xl border border-rivera bg-pino p-5">
         <label className="text-xs text-ink-soft">
           Fecha
           <input required type="date" value={date} onChange={(e) => setDate(e.target.value)} className={`block ${inputCls}`} />
@@ -62,7 +62,7 @@ export function AdminBlocked({ today }: { today: string }) {
           Motivo (opcional)
           <input maxLength={120} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Feriado, feria, etc." className={`block ${inputCls}`} />
         </label>
-        <button type="submit" className="rounded bg-verde px-4 py-2 text-sm font-semibold text-crema hover:bg-verde-2">
+        <button type="submit" className="rounded-lg bg-salvia px-4 py-2 text-sm font-bold text-bosque hover:bg-crema">
           Bloquear
         </button>
         {msg && <p className="w-full text-sm text-ink-soft">{msg}</p>}
@@ -73,14 +73,14 @@ export function AdminBlocked({ today }: { today: string }) {
           <p className="text-sm text-ink-soft">No hay días bloqueados.</p>
         )}
         {rows.map((r) => (
-          <li key={r.date} className="flex items-center justify-between rounded-lg border border-line bg-card p-4 text-sm">
+          <li key={r.date} className="flex items-center justify-between rounded-lg border border-rivera bg-pino p-4 text-sm">
             <div>
-              <p className="font-medium">{r.date}</p>
+              <p className="font-medium text-crema">{r.date}</p>
               {r.reason && <p className="text-xs text-ink-soft">{r.reason}</p>}
             </div>
             <button
               onClick={() => remove(r.date)}
-              className="rounded bg-red-100 px-3 py-1 text-xs text-red-800"
+              className="rounded bg-red-900/50 px-3 py-1 text-xs text-red-300"
             >
               Quitar
             </button>
