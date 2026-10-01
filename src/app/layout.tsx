@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "Don Valdez · Barber Studio",
   description: "Reservá tu turno en Don Valdez Barber Studio — Salta, Argentina",
   colorScheme: "only light",
+  other: {
+    "supported-color-schemes": "light",
+    nightmode: "disable",
+    "x5-night-mode": "disable",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
