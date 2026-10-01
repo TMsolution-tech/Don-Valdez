@@ -1,13 +1,18 @@
+import Image from 'next/image'
+
 const INSTAGRAM_URL = 'https://www.instagram.com/donvaldez.studio/'
 
 export function Footer() {
   return (
     <footer className="border-t border-rivera bg-bosque">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-12 text-center">
-        <span className="font-tag text-3xl text-crema">Don Valdez</span>
-        <span className="text-[10px] uppercase tracking-[0.35em] text-salvia">
-          Barber Studio · Salta
-        </span>
+        <Image
+          src="/logo-light.png"
+          alt="Don Valdez — Barber Studio"
+          width={807}
+          height={399}
+          className="h-12 w-auto"
+        />
         <a
           href={INSTAGRAM_URL}
           target="_blank"

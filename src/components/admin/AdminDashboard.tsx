@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -32,9 +33,16 @@ export function AdminDashboard({ today }: { today: string }) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="font-tag text-3xl text-crema">
-          Panel · Don Valdez
-        </h1>
+        <div className="flex items-center gap-3">
+          <Image
+            src="/logo-light.png"
+            alt="Don Valdez"
+            width={807}
+            height={399}
+            className="h-8 w-auto"
+          />
+          <h1 className="font-tag text-3xl text-crema">Panel</h1>
+        </div>
         <button
           onClick={signOut}
           className="text-sm text-ink-soft hover:text-salvia"

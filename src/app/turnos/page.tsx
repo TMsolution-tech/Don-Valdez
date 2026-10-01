@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { nowInShopTz } from '@/lib/time'
@@ -40,8 +41,15 @@ export default async function TurnosPage({
     <main className="min-h-full bg-bosque">
       <header className="border-b border-rivera bg-bosque/95">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <Link href="/" className="font-tag text-2xl text-crema">
-            Don Valdez
+          <Link href="/" aria-label="Don Valdez — inicio">
+            <Image
+              src="/logo-light.png"
+              alt="Don Valdez — Barber Studio"
+              width={807}
+              height={399}
+              className="h-9 w-auto"
+              priority
+            />
           </Link>
           <Link href="/" className="text-sm text-ink-soft hover:text-salvia">
             ← Volver

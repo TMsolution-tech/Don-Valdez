@@ -62,15 +62,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Donde iría la foto: el logo del local, en marco claro */}
+        {/* Donde iría la foto: el logo del local */}
         <div className="flex justify-center lg:justify-end">
-          <div className="relative -rotate-2 rounded-3xl bg-crema p-6 shadow-2xl shadow-black/50 sm:p-8">
+          <div className="relative -rotate-2 rounded-3xl border border-rivera bg-pino p-8 shadow-2xl shadow-black/50 sm:p-10">
             <Image
-              src="/logo.png"
+              src="/logo-light.png"
               alt="Don Valdez — Barber Studio, Salta Argentina"
-              width={360}
-              height={360}
-              className="h-auto w-64 sm:w-80"
+              width={807}
+              height={399}
+              className="h-auto w-72 sm:w-96"
               priority
             />
           </div>
