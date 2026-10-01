@@ -18,14 +18,14 @@ const MAPS_EMBED =
 
 const SOCIALS = [
   {
-    label: 'Instagram',
+    label: 'Instagram ',
     links: [
       { handle: '@donvaldez.studio', url: 'https://www.instagram.com/donvaldez.studio/' },
       { handle: '@juanvaldeez.7', url: 'https://www.instagram.com/juanvaldeez.7/' },
     ],
   },
   {
-    label: 'TikTok',
+    label: 'TikTok ',
     links: [
       { handle: '@don.valdez.studio', url: 'https://www.tiktok.com/@don.valdez.studio' },
     ],
