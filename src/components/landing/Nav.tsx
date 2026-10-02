@@ -22,7 +22,7 @@ export function Nav() {
         </nav>
         <Link
           href="/turnos"
-          className="rounded-lg bg-white px-5 py-2 text-sm font-semibold text-pino transition hover:bg-crema"
+          className="rounded-lg bg-white px-5 py-2 text-sm font-semibold text-verde transition hover:bg-crema"
         >
           Reservar turno
         </Link>

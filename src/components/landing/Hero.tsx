@@ -49,7 +49,7 @@ export function Hero() {
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
               href="/turnos"
-              className="rounded-lg bg-verde px-8 py-3 text-sm font-bold uppercase tracking-wider text-acc-ink transition hover:opacity-90"
+              className="rounded-lg bg-verde px-8 py-3 text-sm font-bold uppercase tracking-wider text-crema transition hover:bg-tinta"
             >
               Agendar ahora
             </Link>
