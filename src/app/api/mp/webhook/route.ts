@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { WebhookSignatureValidator } from 'mercadopago'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { mpPayment } from '@/lib/mercadopago'
+import { notifyNewBooking } from '@/lib/mail'
 import { env } from '@/lib/env'
 
 // MP envía el aviso como ?type=payment&data.id=123 o en el body JSON.
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
 
   const { data: booking } = await supabase
     .from('bookings')
-    .select('id, status')
+    .select('id, status, booking_date, start_time, client_name, client_phone, payment_method, promo_code, discount_amount, services(name)')
     .eq('id', bookingId)
     .maybeSingle()
 
@@ -91,6 +92,24 @@ export async function POST(request: Request) {
         expires_at: null,
       })
       .eq('id', booking.id)
+
+    if (relocked !== false) {
+      try {
+        await notifyNewBooking({
+          serviceName:
+            (booking.services as { name?: string } | null)?.name ?? 'Servicio',
+          date: booking.booking_date,
+          time: booking.start_time,
+          clientName: booking.client_name,
+          clientPhone: booking.client_phone,
+          paymentMethod: booking.payment_method as 'mp' | 'cash',
+          promoCode: booking.promo_code,
+          discount: Number(booking.discount_amount),
+        })
+      } catch (err) {
+        console.error('[mp/webhook] mail de notificación falló', err)
+      }
+    }
   } else if (
     payment.status === 'rejected' ||
     payment.status === 'cancelled' ||

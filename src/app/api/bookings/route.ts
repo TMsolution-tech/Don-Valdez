@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { mpPreference } from '@/lib/mercadopago'
+import { notifyNewBooking } from '@/lib/mail'
 import { env } from '@/lib/env'
 
 const bookingSchema = z.object({
@@ -92,7 +93,7 @@ export async function POST(request: Request) {
   // Datos del turno para armar la preferencia de pago
   const { data: booking } = await supabase
     .from('bookings')
-    .select('id, expires_at, deposit_amount, services(name)')
+    .select('id, expires_at, deposit_amount, booking_date, start_time, payment_method, promo_code, discount_amount, services(name)')
     .eq('id', bookingId)
     .single()
 
@@ -102,6 +103,21 @@ export async function POST(request: Request) {
 
   // Efectivo: turno confirmado directo, sin Mercado Pago
   if (payment_method === 'cash') {
+    try {
+      await notifyNewBooking({
+        serviceName:
+          (booking.services as { name?: string } | null)?.name ?? 'Servicio',
+        date: booking.booking_date,
+        time: booking.start_time,
+        clientName: name,
+        clientPhone: phone,
+        paymentMethod: 'cash',
+        promoCode: booking.promo_code,
+        discount: Number(booking.discount_amount),
+      })
+    } catch (err) {
+      console.error('[bookings] mail de notificación falló', err)
+    }
     return NextResponse.json(
       { booking_id: booking.id, cash: true },
       { status: 201 },

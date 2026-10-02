@@ -10,5 +10,8 @@ export const env = {
   supabaseServiceKey: () => req('SUPABASE_SERVICE_ROLE_KEY'),
   mpAccessToken: () => req('MP_ACCESS_TOKEN'),
   mpWebhookSecret: () => process.env.MP_WEBHOOK_SECRET ?? '',
+  gmailUser: () => process.env.GMAIL_USER ?? '',
+  gmailAppPassword: () => process.env.GMAIL_APP_PASSWORD ?? '',
+  notifyEmail: () => process.env.NOTIFY_EMAIL ?? '',
   siteUrl: () => (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, ''),
 }
