@@ -38,7 +38,7 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
 
   if (failed) {
     return (
-      <p className="text-center text-sm text-red-400">
+      <p className="text-center text-sm text-red-700 dark:text-red-400">
         No pudimos consultar el estado del turno. Si ya pagaste, contactanos por
         Instagram.
       </p>
@@ -59,7 +59,7 @@ export function BookingResult({ bookingId }: { bookingId: string }) {
       ? 'border-salvia bg-musgo'
       : status === 'pending_payment' || status === 'payment_review'
         ? 'border-rivera bg-pino'
-        : 'border-red-800 bg-red-950/50'
+        : 'border-red-800 bg-red-950/50 dark:bg-red-950/40'
 
   const title =
     status === 'confirmed'

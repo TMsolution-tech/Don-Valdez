@@ -39,7 +39,14 @@ export function AdminDashboard({ today }: { today: string }) {
             alt="Don Valdez"
             width={807}
             height={399}
-            className="h-8 w-auto"
+            className="h-8 w-auto dark:hidden"
+          />
+          <Image
+            src="/logo-white.png"
+            alt="Don Valdez"
+            width={807}
+            height={399}
+            className="hidden h-8 w-auto dark:block"
           />
           <h1 className="font-tag text-3xl text-tinta">Panel</h1>
         </div>

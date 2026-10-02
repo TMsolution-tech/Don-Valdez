@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta Don Valdez — página blanca, superficies verde oscuro */
-  --color-bosque: #f6f9f6; /* fondo página (blanco verdoso) */
+  /* Paleta Don Valdez — claro: página blanca, superficies verde oscuro */
+  --color-bosque: #f6f9f6; /* fondo página */
   --color-pino: #123527; /* superficies: nav, cards, footer */
   --color-musgo: #1d4534; /* elevado dentro de verde: inputs, sub-paneles */
   --color-rivera: #2c5a45; /* bordes sobre verde */
   --color-salvia: #aad8b8; /* acento menta (sobre verde) */
   --color-crema: #f2f8f4; /* texto claro sobre verde */
-  --color-tinta: #122a1f; /* texto oscuro sobre blanco */
-  --color-verde: #1e4634; /* acento verde oscuro sobre blanco */
-  --color-tinta-soft: #5a7063; /* texto secundario sobre blanco */
+  --color-tinta: #122a1f; /* texto sobre fondo página */
+  --color-verde: #1e4634; /* acento sobre fondo página */
+  --color-tinta-soft: #5a7063; /* texto secundario sobre fondo página */
+  --color-acc-ink: #f2f8f4; /* texto sobre bg-verde (botones de página) */
 
   --color-paper: var(--color-bosque);
   --color-card: var(--color-pino);
@@ -23,8 +24,24 @@
   --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bosque: #051f20;
+    --color-pino: #0b2b26;
+    --color-musgo: #163832;
+    --color-rivera: #235347;
+    --color-salvia: #aad8b8;
+    --color-crema: #f2f8f4;
+    --color-tinta: #f2f8f4;
+    --color-verde: #aad8b8;
+    --color-tinta-soft: #a9c6b4;
+    --color-acc-ink: #0b2b26;
+    --color-ink-soft: #a9c6b4;
+  }
+}
+
 html {
-  color-scheme: only light; /* bloquea el auto-dark-mode del navegador */
+  color-scheme: light dark; /* el sitio tiene tema claro y oscuro diseñados */
 }
 
 body {
