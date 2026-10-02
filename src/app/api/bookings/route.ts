@@ -20,6 +20,8 @@ const bookingSchema = z.object({
         .max(15, 'Ingresá un celular válido — solo números, ej: 3874123456')
     ),
   email: z.email('Email inválido').max(120).optional().or(z.literal('')),
+  payment_method: z.enum(['mp', 'cash']).default('mp'),
+  promo_code: z.string().trim().max(30).optional().or(z.literal('')),
   website: z.string().max(0).optional(), // honeypot
 })
 
@@ -39,9 +41,28 @@ export async function POST(request: Request) {
       { status: 400 },
     )
   }
-  const { service_id, date, time, name, phone, email } = parsed.data
+  const { service_id, date, time, name, phone, email, payment_method, promo_code } =
+    parsed.data
 
   const supabase = createAdminClient()
+
+  // Validar promo server-side (nunca confiar en el cliente)
+  let promoCode: string | null = null
+  let discount = 0
+  if (promo_code) {
+    const { data: promo } = await supabase
+      .from('promo_codes')
+      .select('code, discount')
+      .eq('is_active', true)
+      .ilike('code', promo_code)
+      .maybeSingle()
+    if (!promo) {
+      return NextResponse.json({ error: 'Código de promoción inválido.' }, { status: 400 })
+    }
+    promoCode = promo.code
+    discount = Number(promo.discount)
+  }
+
   const { data: bookingId, error } = await supabase.rpc('create_booking', {
     p_service_id: service_id,
     p_date: date,
@@ -49,6 +70,9 @@ export async function POST(request: Request) {
     p_name: name,
     p_phone: phone,
     p_email: email || null,
+    p_payment_method: payment_method,
+    p_promo_code: promoCode,
+    p_discount: discount,
   })
 
   if (error || !bookingId) {
@@ -74,6 +98,14 @@ export async function POST(request: Request) {
 
   if (!booking) {
     return NextResponse.json({ error: 'Error interno' }, { status: 500 })
+  }
+
+  // Efectivo: turno confirmado directo, sin Mercado Pago
+  if (payment_method === 'cash') {
+    return NextResponse.json(
+      { booking_id: booking.id, cash: true },
+      { status: 201 },
+    )
   }
 
   const serviceName =

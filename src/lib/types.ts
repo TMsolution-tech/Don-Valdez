@@ -35,6 +35,9 @@ export interface Booking {
   client_email: string | null
   status: BookingStatus
   deposit_amount: number
+  payment_method: 'mp' | 'cash'
+  promo_code: string | null
+  discount_amount: number
   mp_preference_id: string | null
   mp_payment_id: string | null
   expires_at: string | null

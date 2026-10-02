@@ -14,6 +14,9 @@ interface Row {
   client_phone: string
   status: BookingStatus
   deposit_amount: number
+  payment_method: 'mp' | 'cash'
+  promo_code: string | null
+  discount_amount: number
   services: { name: string } | null
 }
 
@@ -37,7 +40,7 @@ export function AdminBookings({ today }: { today: string }) {
     let alive = true
     supabase
       .from('bookings')
-      .select('id, booking_date, start_time, end_time, client_name, client_phone, status, deposit_amount, services(name)')
+      .select('id, booking_date, start_time, end_time, client_name, client_phone, status, deposit_amount, payment_method, promo_code, discount_amount, services(name)')
       .eq('booking_date', date)
       .order('start_time')
       .then(({ data }) => {
@@ -109,7 +112,12 @@ export function AdminBookings({ today }: { today: string }) {
             </div>
             <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
               <span className="text-ink-soft">
-                {b.services?.name} · seña ${b.deposit_amount.toLocaleString('es-AR')}
+                {b.services?.name} ·{' '}
+                {b.payment_method === 'cash'
+                  ? 'Efectivo en el local'
+                  : `seña $${b.deposit_amount.toLocaleString('es-AR')}`}
+                {b.promo_code &&
+                  ` · promo ${b.promo_code} (−$${Number(b.discount_amount).toLocaleString('es-AR')})`}
               </span>
               <div className="flex gap-2 text-xs">
                 {b.client_phone && (

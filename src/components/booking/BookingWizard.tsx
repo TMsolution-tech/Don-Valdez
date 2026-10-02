@@ -61,6 +61,11 @@ export function BookingWizard({
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [website, setWebsite] = useState('') // honeypot
+  const [payMethod, setPayMethod] = useState<'mp' | 'cash'>('mp')
+  const [promoInput, setPromoInput] = useState('')
+  const [promo, setPromo] = useState<{ code: string; discount: number } | null>(null)
+  const [promoMsg, setPromoMsg] = useState('')
+  const [checkingPromo, setCheckingPromo] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
@@ -86,6 +91,27 @@ export function BookingWizard({
     }
   }, [service, date])
 
+  async function applyPromo() {
+    const code = promoInput.trim()
+    if (!code) return
+    setCheckingPromo(true)
+    setPromoMsg('')
+    try {
+      const res = await fetch(`/api/promo?code=${encodeURIComponent(code)}`)
+      const data = await res.json()
+      if (!res.ok || !data.ok) {
+        setPromo(null)
+        setPromoMsg(data.error ?? 'Código inválido')
+      } else {
+        setPromo({ code: data.code, discount: data.discount })
+        setPromoMsg(`Aplicado: −$${data.discount.toLocaleString('es-AR')}`)
+      }
+    } catch {
+      setPromoMsg('No se pudo validar el código')
+    }
+    setCheckingPromo(false)
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!service || !date || !time) return
@@ -102,12 +128,16 @@ export function BookingWizard({
           name,
           phone,
           email: email || undefined,
+          payment_method: payMethod,
+          promo_code: promo?.code,
           website,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'No se pudo crear el turno')
-      window.location.assign(data.init_point)
+      window.location.assign(
+        data.init_point ?? `/turnos/resultado?b=${data.booking_id}`,
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error inesperado')
       setSubmitting(false)
@@ -296,20 +326,48 @@ export function BookingWizard({
                   {service ? `${service.duration_min} min` : '—'}
                 </dd>
               </div>
-              <div className="border-t border-rivera pt-3">
+              {promo && service && (
                 <div className="flex justify-between">
-                  <dt className="font-semibold text-crema">Seña a pagar</dt>
-                  <dd className="text-lg font-bold text-salvia">
-                    {service
-                      ? `$${service.deposit.toLocaleString('es-AR')}`
-                      : '—'}
+                  <dt className="text-ink-soft">Promo {promo.code}</dt>
+                  <dd className="font-semibold text-salvia">
+                    −${promo.discount.toLocaleString('es-AR')}
                   </dd>
                 </div>
-                {service && (
-                  <p className="mt-1 text-right text-xs text-ink-soft">
-                    Resto en el local: $
-                    {(service.price - service.deposit).toLocaleString('es-AR')}
-                  </p>
+              )}
+              <div className="border-t border-rivera pt-3">
+                {payMethod === 'mp' ? (
+                  <>
+                    <div className="flex justify-between">
+                      <dt className="font-semibold text-crema">Seña a pagar</dt>
+                      <dd className="text-lg font-bold text-salvia">
+                        {service
+                          ? `$${service.deposit.toLocaleString('es-AR')}`
+                          : '—'}
+                      </dd>
+                    </div>
+                    {service && (
+                      <p className="mt-1 text-right text-xs text-ink-soft">
+                        Resto en el local: $
+                        {Math.max(
+                          0,
+                          service.price -
+                            service.deposit -
+                            (promo?.discount ?? 0),
+                        ).toLocaleString('es-AR')}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <div className="flex justify-between">
+                    <dt className="font-semibold text-crema">
+                      Pagás en el local
+                    </dt>
+                    <dd className="text-lg font-bold text-salvia">
+                      {service
+                        ? `$${Math.max(0, service.price - (promo?.discount ?? 0)).toLocaleString('es-AR')}`
+                        : '—'}
+                    </dd>
+                  </div>
                 )}
               </div>
             </dl>
@@ -353,26 +411,92 @@ export function BookingWizard({
                 placeholder="Email (opcional)"
                 className={inputCls}
               />
+
+              <div>
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-ink-soft">
+                  ¿Cómo pagás?
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {(
+                    [
+                      { id: 'mp', label: 'Seña con Mercado Pago' },
+                      { id: 'cash', label: 'Efectivo en el local' },
+                    ] as const
+                  ).map((m) => (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => setPayMethod(m.id)}
+                      className={`rounded-lg border px-2 py-2.5 text-xs font-semibold transition ${
+                        payMethod === m.id
+                          ? 'border-salvia bg-salvia text-pino'
+                          : 'border-rivera bg-musgo text-ink-soft hover:border-salvia/60'
+                      }`}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    maxLength={30}
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                    placeholder="Código de promo"
+                    className={inputCls}
+                  />
+                  <button
+                    type="button"
+                    onClick={applyPromo}
+                    disabled={checkingPromo || !promoInput.trim()}
+                    className="shrink-0 rounded-lg border border-rivera px-4 text-xs font-semibold text-ink-soft transition hover:border-salvia hover:text-salvia disabled:opacity-40"
+                  >
+                    Aplicar
+                  </button>
+                </div>
+                {promoMsg && (
+                  <p
+                    className={`mt-1 text-xs ${promo ? 'text-salvia' : 'text-red-400'}`}
+                  >
+                    {promoMsg}
+                  </p>
+                )}
+              </div>
+
               {error && <p className="text-sm text-red-400">{error}</p>}
               <button
                 type="submit"
                 disabled={!ready || submitting}
                 className="w-full rounded-lg bg-salvia py-3 text-sm font-bold uppercase tracking-wider text-pino transition hover:bg-crema disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {submitting ? 'Generando pago…' : 'Confirmar y pagar seña'}
+                {submitting
+                  ? 'Confirmando…'
+                  : payMethod === 'mp'
+                    ? 'Confirmar y pagar seña'
+                    : 'Confirmar turno'}
               </button>
-              <p className="flex items-center gap-1.5 text-[11px] text-ink-soft">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="h-3.5 w-3.5"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-                </svg>
-                Pago seguro con Mercado Pago
-              </p>
+              {payMethod === 'mp' ? (
+                <p className="flex items-center gap-1.5 text-[11px] text-ink-soft">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="h-3.5 w-3.5"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+                  </svg>
+                  Pago seguro con Mercado Pago
+                </p>
+              ) : (
+                <p className="text-[11px] text-ink-soft">
+                  Sin seña — pagás el total cuando venís al local.
+                </p>
+              )}
             </form>
           </div>
         </div>
