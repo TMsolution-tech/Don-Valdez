@@ -41,6 +41,15 @@ export interface Booking {
   created_at: string
 }
 
+export interface Movement {
+  id: string
+  tipo: 'ingreso' | 'gasto'
+  descripcion: string
+  monto: number
+  fecha: string // "YYYY-MM-DD"
+  created_at: string
+}
+
 export interface Comment {
   id: string
   author_name: string

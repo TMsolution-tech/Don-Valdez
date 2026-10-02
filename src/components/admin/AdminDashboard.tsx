@@ -9,9 +9,11 @@ import { AdminServices } from './AdminServices'
 import { AdminHours } from './AdminHours'
 import { AdminBlocked } from './AdminBlocked'
 import { AdminComments } from './AdminComments'
+import { AdminMovements } from './AdminMovements'
 
 const TABS = [
   { id: 'turnos', label: 'Turnos' },
+  { id: 'caja', label: 'Caja' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'horarios', label: 'Horarios' },
   { id: 'bloqueos', label: 'Días bloqueados' },
@@ -76,6 +78,7 @@ export function AdminDashboard({ today }: { today: string }) {
 
       <div className="mt-6">
         {tab === 'turnos' && <AdminBookings today={today} />}
+        {tab === 'caja' && <AdminMovements today={today} />}
         {tab === 'servicios' && <AdminServices />}
         {tab === 'horarios' && <AdminHours />}
         {tab === 'bloqueos' && <AdminBlocked today={today} />}
