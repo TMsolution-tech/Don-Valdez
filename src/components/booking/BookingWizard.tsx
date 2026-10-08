@@ -36,6 +36,11 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   )
 }
 
+// Seña por Mercado Pago + códigos de promo: desactivados por pedido del cliente.
+// Para reactivarlos: poner true y vuelve todo (selector de pago, campo promo,
+// monto de seña en servicios y resumen).
+const SHOW_SEÑA_Y_PROMOS = false
+
 export function BookingWizard({
   services,
   preselectedServiceId,
@@ -61,7 +66,9 @@ export function BookingWizard({
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [website, setWebsite] = useState('') // honeypot
-  const [payMethod, setPayMethod] = useState<'mp' | 'cash'>('mp')
+  const [payMethod, setPayMethod] = useState<'mp' | 'cash'>(
+    SHOW_SEÑA_Y_PROMOS ? 'mp' : 'cash',
+  )
   const [promoInput, setPromoInput] = useState('')
   const [promo, setPromo] = useState<{ code: string; discount: number } | null>(null)
   const [promoMsg, setPromoMsg] = useState('')
@@ -208,8 +215,9 @@ export function BookingWizard({
                         {s.name}
                       </span>
                       <span className="text-xs text-ink-soft">
-                        {s.duration_min} min · seña $
-                        {s.deposit.toLocaleString('es-AR')}
+                        {s.duration_min} min
+                        {SHOW_SEÑA_Y_PROMOS &&
+                          ` · seña $${s.deposit.toLocaleString('es-AR')}`}
                       </span>
                     </span>
                     <span className="flex items-center gap-3">
@@ -412,60 +420,66 @@ export function BookingWizard({
                 className={inputCls}
               />
 
-              <div>
-                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-ink-soft">
-                  ¿Cómo pagás?
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  {(
-                    [
-                      { id: 'mp', label: 'Seña con Mercado Pago' },
-                      { id: 'cash', label: 'Efectivo en el local' },
-                    ] as const
-                  ).map((m) => (
-                    <button
-                      key={m.id}
-                      type="button"
-                      onClick={() => setPayMethod(m.id)}
-                      className={`rounded-lg border px-2 py-2.5 text-xs font-semibold transition ${
-                        payMethod === m.id
-                          ? 'border-salvia bg-salvia text-pino'
-                          : 'border-rivera bg-musgo text-ink-soft hover:border-salvia/60'
-                      }`}
-                    >
-                      {m.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    maxLength={30}
-                    value={promoInput}
-                    onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                    placeholder="Código de promo"
-                    className={inputCls}
-                  />
-                  <button
-                    type="button"
-                    onClick={applyPromo}
-                    disabled={checkingPromo || !promoInput.trim()}
-                    className="shrink-0 rounded-lg border border-rivera px-4 text-xs font-semibold text-ink-soft transition hover:border-salvia hover:text-salvia disabled:opacity-40"
-                  >
-                    Aplicar
-                  </button>
-                </div>
-                {promoMsg && (
-                  <p
-                    className={`mt-1 text-xs ${promo ? 'text-salvia' : 'text-red-400'}`}
-                  >
-                    {promoMsg}
+              {SHOW_SEÑA_Y_PROMOS && (
+                <div>
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-ink-soft">
+                    ¿Cómo pagás?
                   </p>
-                )}
-              </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {(
+                      [
+                        { id: 'mp', label: 'Seña con Mercado Pago' },
+                        { id: 'cash', label: 'Efectivo en el local' },
+                      ] as const
+                    ).map((m) => (
+                      <button
+                        key={m.id}
+                        type="button"
+                        onClick={() => setPayMethod(m.id)}
+                        className={`rounded-lg border px-2 py-2.5 text-xs font-semibold transition ${
+                          payMethod === m.id
+                            ? 'border-salvia bg-salvia text-pino'
+                            : 'border-rivera bg-musgo text-ink-soft hover:border-salvia/60'
+                        }`}
+                      >
+                        {m.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {SHOW_SEÑA_Y_PROMOS && (
+                <div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      maxLength={30}
+                      value={promoInput}
+                      onChange={(e) =>
+                        setPromoInput(e.target.value.toUpperCase())
+                      }
+                      placeholder="Código de promo"
+                      className={inputCls}
+                    />
+                    <button
+                      type="button"
+                      onClick={applyPromo}
+                      disabled={checkingPromo || !promoInput.trim()}
+                      className="shrink-0 rounded-lg border border-rivera px-4 text-xs font-semibold text-ink-soft transition hover:border-salvia hover:text-salvia disabled:opacity-40"
+                    >
+                      Aplicar
+                    </button>
+                  </div>
+                  {promoMsg && (
+                    <p
+                      className={`mt-1 text-xs ${promo ? 'text-salvia' : 'text-red-400'}`}
+                    >
+                      {promoMsg}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {error && <p className="text-sm text-red-400">{error}</p>}
               <button

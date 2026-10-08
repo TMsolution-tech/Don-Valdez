@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // Graba un video .webm recorriendo la app en producción.
 // Uso: node scripts/record-demo.js
 const { chromium } = require('playwright')

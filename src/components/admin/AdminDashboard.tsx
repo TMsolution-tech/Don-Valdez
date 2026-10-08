@@ -10,12 +10,12 @@ import { AdminHours } from './AdminHours'
 import { AdminBlocked } from './AdminBlocked'
 import { AdminComments } from './AdminComments'
 import { AdminMovements } from './AdminMovements'
-import { AdminPromos } from './AdminPromos'
+// import { AdminPromos } from './AdminPromos' // TODO: reactivar junto con las promos
 
 const TABS = [
   { id: 'turnos', label: 'Turnos' },
   { id: 'caja', label: 'Caja' },
-  { id: 'promos', label: 'Promos' },
+  // { id: 'promos', label: 'Promos' }, // TODO: reactivar junto con las promos
   { id: 'servicios', label: 'Servicios' },
   { id: 'horarios', label: 'Horarios' },
   { id: 'bloqueos', label: 'Días bloqueados' },
@@ -74,7 +74,7 @@ export function AdminDashboard({ today }: { today: string }) {
       <div className="mt-6">
         {tab === 'turnos' && <AdminBookings today={today} />}
         {tab === 'caja' && <AdminMovements today={today} />}
-        {tab === 'promos' && <AdminPromos />}
+        {/* {tab === 'promos' && <AdminPromos />} */}
         {tab === 'servicios' && <AdminServices />}
         {tab === 'horarios' && <AdminHours />}
         {tab === 'bloqueos' && <AdminBlocked today={today} />}
