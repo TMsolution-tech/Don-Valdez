@@ -44,11 +44,21 @@ export interface Booking {
   created_at: string
 }
 
+export const MOVEMENT_CATEGORIES = [
+  'corte de pelo',
+  'indumentaria',
+  'insumos',
+  'varios',
+] as const
+
+export type MovementCategory = (typeof MOVEMENT_CATEGORIES)[number]
+
 export interface Movement {
   id: string
   tipo: 'ingreso' | 'gasto'
   descripcion: string
   monto: number
+  categoria: MovementCategory
   fecha: string // "YYYY-MM-DD"
   created_at: string
 }
