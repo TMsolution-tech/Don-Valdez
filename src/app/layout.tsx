@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -18,12 +18,15 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Don Valdez · Barber Studio",
   description: "Reservá tu turno en Don Valdez Barber Studio — Salta, Argentina",
-  colorScheme: "only light",
   other: {
     "supported-color-schemes": "light",
     nightmode: "disable",
     "x5-night-mode": "disable",
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "only light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
