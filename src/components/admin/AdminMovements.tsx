@@ -16,6 +16,11 @@ const EMPTY = {
   fecha: '',
 }
 
+const MONTHS = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+]
+
 const fmt = (n: number) => '$' + n.toLocaleString('es-AR')
 
 const CATEGORY_COLORS: Record<MovementCategory, string> = {
@@ -35,65 +40,74 @@ function Donut({
   const C = 2 * Math.PI * R
   let offset = 0
   return (
-    <div className="flex items-center gap-5">
-      <svg viewBox="0 0 100 100" className="h-32 w-32 -rotate-90">
-        <circle cx="50" cy="50" r={R} fill="none" stroke="#235347" strokeWidth="18" />
-        {total > 0 &&
-          data.map((d) => {
-            const frac = d.value / total
-            const el = (
-              <circle
-                key={d.label}
-                cx="50"
-                cy="50"
-                r={R}
-                fill="none"
-                stroke={d.color}
-                strokeWidth="18"
-                strokeDasharray={`${frac * C} ${C}`}
-                strokeDashoffset={-offset * C}
-              />
-            )
-            offset += frac
-            return el
-          })}
-      </svg>
-      <ul className="space-y-1 text-xs">
-        {data.map((d) => (
-          <li key={d.label} className="flex items-center gap-2">
-            <span
-              className="h-2.5 w-2.5 rounded-full"
-              style={{ background: d.color }}
+    <svg viewBox="0 0 100 100" className="h-32 w-32 shrink-0 -rotate-90">
+      <circle cx="50" cy="50" r={R} fill="none" stroke="#235347" strokeWidth="18" />
+      {total > 0 &&
+        data.map((d) => {
+          const frac = d.value / total
+          const el = (
+            <circle
+              key={d.label}
+              cx="50"
+              cy="50"
+              r={R}
+              fill="none"
+              stroke={d.color}
+              strokeWidth="18"
+              strokeDasharray={`${frac * C} ${C}`}
+              strokeDashoffset={-offset * C}
             />
-            <span className="capitalize text-crema">{d.label}</span>
-            <span className="text-ink-soft">
-              {fmt(d.value)} · {total > 0 ? Math.round((d.value / total) * 100) : 0}%
-            </span>
-          </li>
-        ))}
-        {total === 0 && (
-          <li className="text-ink-soft">Sin movimientos este mes.</li>
-        )}
-      </ul>
-    </div>
+          )
+          offset += frac
+          return el
+        })}
+    </svg>
   )
 }
 
 export function AdminMovements({ today }: { today: string }) {
   const [supabase] = useState(() => createClient())
+  const [ty, tm] = today.split('-').map(Number)
+
   const [rows, setRows] = useState<Movement[]>([])
+  const [earliest, setEarliest] = useState<string | null>(null)
   const [form, setForm] = useState({ ...EMPTY, fecha: today })
-  const [month, setMonth] = useState(today.slice(0, 7)) // "YYYY-MM"
+  const [mode, setMode] = useState<'mes' | 'año'>('mes')
+  const [y, setY] = useState(ty)
+  const [m, setM] = useState(tm) // 1-12
+  const [view, setView] = useState<'gasto' | 'ingreso'>('gasto')
   const [msg, setMsg] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
   const reload = () => setRefreshKey((k) => k + 1)
 
+  // El filtro por año aparece recién cuando pasó un año desde el primer movimiento
+  const showYearMode = useMemo(() => {
+    if (!earliest) return false
+    const [ey, em, ed] = earliest.split('-').map(Number)
+    return `${ey + 1}-${String(em).padStart(2, '0')}-${String(ed).padStart(2, '0')}` <= today
+  }, [earliest, today])
+
+  const effMode = showYearMode ? mode : 'mes'
+
+  useEffect(() => {
+    supabase
+      .from('movements')
+      .select('fecha')
+      .order('fecha', { ascending: true })
+      .limit(1)
+      .then(({ data }) => setEarliest(data?.[0]?.fecha ?? null))
+  }, [supabase, refreshKey])
+
   useEffect(() => {
     let alive = true
-    const [y, m] = month.split('-').map(Number)
+    const mm = String(m).padStart(2, '0')
+    const from = effMode === 'mes' ? `${y}-${mm}-01` : `${y}-01-01`
     const to =
-      m === 12 ? `${y + 1}-01-01` : `${y}-${String(m + 1).padStart(2, '0')}-01`
-    const from = `${month}-01`
+      effMode === 'mes'
+        ? m === 12
+          ? `${y + 1}-01-01`
+          : `${y}-${String(m + 1).padStart(2, '0')}-01`
+        : `${y + 1}-01-01`
     supabase
       .from('movements')
       .select('*')
@@ -107,7 +121,20 @@ export function AdminMovements({ today }: { today: string }) {
     return () => {
       alive = false
     }
-  }, [supabase, refreshKey, month])
+  }, [supabase, refreshKey, y, m, effMode])
+
+  function shift(delta: number) {
+    if (effMode === 'año') {
+      setY((v) => v + delta)
+      return
+    }
+    const d = new Date(Date.UTC(y, m - 1 + delta, 1))
+    setY(d.getUTCFullYear())
+    setM(d.getUTCMonth() + 1)
+  }
+
+  const atCurrent =
+    effMode === 'año' ? y >= ty : y > ty || (y === ty && m >= tm)
 
   const totals = useMemo(() => {
     let ingresos = 0
@@ -119,17 +146,31 @@ export function AdminMovements({ today }: { today: string }) {
     return { ingresos, gastos, balance: ingresos - gastos }
   }, [rows])
 
+  const viewTotal = view === 'gasto' ? totals.gastos : totals.ingresos
+
   const byCategory = useMemo(
     () =>
       MOVEMENT_CATEGORIES.map((c) => ({
         label: c,
         color: CATEGORY_COLORS[c],
         value: rows
-          .filter((r) => r.categoria === c)
+          .filter((r) => r.tipo === view && r.categoria === c)
           .reduce((a, r) => a + Number(r.monto), 0),
-      })),
-    [rows],
+      }))
+        .filter((c) => c.value > 0)
+        .sort((a, b) => b.value - a.value),
+    [rows, view],
   )
+
+  // Desglose por mes (solo en vista anual)
+  const byMonth = useMemo(() => {
+    if (effMode !== 'año') return []
+    const acc = Array.from({ length: 12 }, () => 0)
+    for (const r of rows) {
+      if (r.tipo === view) acc[Number(r.fecha.slice(5, 7)) - 1] += Number(r.monto)
+    }
+    return acc
+  }, [rows, view, effMode])
 
   async function save(e: React.FormEvent) {
     e.preventDefault()
@@ -160,6 +201,12 @@ export function AdminMovements({ today }: { today: string }) {
 
   const inputCls =
     'w-full rounded-lg border border-rivera bg-musgo px-3 py-2 text-sm text-crema placeholder:text-ink-soft/60 focus:border-salvia focus:outline-none'
+  const arrowCls =
+    'flex h-10 w-10 items-center justify-center rounded-xl bg-musgo text-salvia transition hover:bg-rivera disabled:opacity-30 disabled:hover:bg-musgo'
+
+  const periodLabel = effMode === 'mes' ? MONTHS[m - 1] : String(y)
+  const [whole, cents] = viewTotal.toFixed(2).split('.')
+  const wholeFmt = Number(whole).toLocaleString('es-AR')
 
   return (
     <section className="grid gap-8 lg:grid-cols-2">
@@ -238,14 +285,121 @@ export function AdminMovements({ today }: { today: string }) {
       </form>
 
       <div>
-        <div className="flex items-center justify-between gap-3">
-          <input
-            type="month"
-            value={month}
-            onChange={(e) => e.target.value && setMonth(e.target.value)}
-            className="rounded-lg border border-rivera bg-musgo px-3 py-1.5 text-sm text-crema focus:border-salvia focus:outline-none"
-          />
+        {showYearMode && (
+          <div className="mb-3 inline-flex rounded-lg border border-rivera bg-pino p-1 text-xs font-semibold">
+            {(['mes', 'año'] as const).map((md) => (
+              <button
+                key={md}
+                onClick={() => setMode(md)}
+                className={`rounded-md px-4 py-1.5 capitalize transition ${
+                  effMode === md ? 'bg-salvia text-pino' : 'text-ink-soft hover:text-salvia'
+                }`}
+              >
+                {md === 'mes' ? 'Mensual' : 'Anual'}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="rounded-xl border border-rivera bg-pino p-5">
+          <div className="flex gap-2 text-xs font-semibold">
+            {(['gasto', 'ingreso'] as const).map((v) => (
+              <button
+                key={v}
+                onClick={() => setView(v)}
+                className={`rounded-full px-4 py-1.5 transition ${
+                  view === v
+                    ? 'bg-salvia text-pino'
+                    : 'border border-rivera text-ink-soft hover:border-salvia'
+                }`}
+              >
+                {v === 'gasto' ? 'Salidas' : 'Ingresos'}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-end justify-between gap-3">
+            <div>
+              <p className="text-sm text-ink-soft">
+                Total de {view === 'gasto' ? 'salidas' : 'ingresos'} de {periodLabel}
+                {effMode === 'mes' && y !== ty ? ` ${y}` : ''}
+              </p>
+              <p className="mt-1 font-tag text-5xl leading-none text-crema">
+                ${wholeFmt}
+                <span className="align-top text-xl text-ink-soft">{cents}</span>
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button aria-label="Anterior" onClick={() => shift(-1)} className={arrowCls}>
+                ‹
+              </button>
+              <button
+                aria-label="Siguiente"
+                disabled={atCurrent}
+                onClick={() => shift(1)}
+                className={arrowCls}
+              >
+                ›
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-5 flex items-center gap-5">
+            <Donut data={byCategory} />
+            <p className="text-xs text-ink-soft">
+              {byCategory.length === 0
+                ? 'Sin movimientos en este período.'
+                : `Balance del período: ${fmt(totals.balance)}`}
+            </p>
+          </div>
+
+          <ul className="mt-4 divide-y divide-rivera/60">
+            {byCategory.map((c) => (
+              <li key={c.label} className="flex items-center gap-3 py-3">
+                <span
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold uppercase text-pino"
+                  style={{ background: c.color }}
+                >
+                  {c.label[0]}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium capitalize text-crema">{c.label}</p>
+                  <p className="text-xs text-ink-soft">
+                    {Math.round((c.value / viewTotal) * 100)}% de{' '}
+                    {view === 'gasto' ? 'las salidas' : 'los ingresos'}
+                  </p>
+                </div>
+                <span className="font-semibold text-crema">{fmt(c.value)}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        {effMode === 'año' && (
+          <div className="mt-4 rounded-xl border border-rivera bg-pino p-5">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-soft">
+              Por mes — {y}
+            </p>
+            <ul className="divide-y divide-rivera/60">
+              {byMonth.map((v, i) => (
+                <li key={i}>
+                  <button
+                    onClick={() => {
+                      setM(i + 1)
+                      setMode('mes')
+                    }}
+                    className="flex w-full items-center justify-between py-2.5 text-sm hover:text-salvia"
+                  >
+                    <span className="capitalize text-crema">{MONTHS[i]}</span>
+                    <span className={v > 0 ? 'font-semibold text-crema' : 'text-ink-soft'}>
+                      {fmt(v)}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="mt-3 grid grid-cols-3 gap-2 text-center">
           <div className="rounded-lg border border-rivera bg-pino p-3">
@@ -264,38 +418,31 @@ export function AdminMovements({ today }: { today: string }) {
           </div>
         </div>
 
-        <div className="mt-4 rounded-lg border border-rivera bg-pino p-4">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-ink-soft">
-            Por categoría
-          </p>
-          <Donut data={byCategory} />
-        </div>
-
         <ul className="mt-4 space-y-2">
-          {rows.map((m) => (
+          {rows.map((mv) => (
             <li
-              key={m.id}
+              key={mv.id}
               className="flex items-center justify-between gap-3 rounded-lg border border-rivera bg-pino p-3 text-sm"
             >
               <div className="min-w-0">
-                <p className="truncate font-medium text-crema">{m.descripcion}</p>
+                <p className="truncate font-medium text-crema">{mv.descripcion}</p>
                 <p className="text-xs capitalize text-ink-soft">
-                  {m.fecha} · {m.categoria}
+                  {mv.fecha} · {mv.categoria}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-3">
-                <span className={m.tipo === 'ingreso' ? 'font-semibold text-salvia' : 'font-semibold text-red-400'}>
-                  {m.tipo === 'ingreso' ? '+' : '−'}
-                  {fmt(Number(m.monto))}
+                <span className={mv.tipo === 'ingreso' ? 'font-semibold text-salvia' : 'font-semibold text-red-400'}>
+                  {mv.tipo === 'ingreso' ? '+' : '−'}
+                  {fmt(Number(mv.monto))}
                 </span>
-                <button onClick={() => remove(m.id)} className="rounded bg-red-100 px-2 py-1 text-xs text-red-700">
+                <button onClick={() => remove(mv.id)} className="rounded bg-red-100 px-2 py-1 text-xs text-red-700">
                   Borrar
                 </button>
               </div>
             </li>
           ))}
           {rows.length === 0 && (
-            <p className="text-sm text-ink-soft">No hay movimientos en este mes.</p>
+            <p className="text-sm text-ink-soft">No hay movimientos en este período.</p>
           )}
         </ul>
       </div>
