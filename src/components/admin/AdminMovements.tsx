@@ -205,8 +205,10 @@ export function AdminMovements({ today }: { today: string }) {
     'flex h-10 w-10 items-center justify-center rounded-xl bg-musgo text-salvia transition hover:bg-rivera disabled:opacity-30 disabled:hover:bg-musgo'
 
   const periodLabel = effMode === 'mes' ? MONTHS[m - 1] : String(y)
-  const [whole, cents] = viewTotal.toFixed(2).split('.')
-  const wholeFmt = Number(whole).toLocaleString('es-AR')
+  const balanceFmt =
+    (totals.balance < 0 ? '−' : '') +
+    '$' +
+    Math.abs(totals.balance).toLocaleString('es-AR')
 
   return (
     <section className="grid gap-8 lg:grid-cols-2">
@@ -302,32 +304,18 @@ export function AdminMovements({ today }: { today: string }) {
         )}
 
         <div className="rounded-xl border border-rivera bg-pino p-5">
-          <div className="flex gap-2 text-xs font-semibold">
-            {(['gasto', 'ingreso'] as const).map((v) => (
-              <button
-                key={v}
-                onClick={() => setView(v)}
-                className={`rounded-full px-4 py-1.5 transition ${
-                  view === v
-                    ? 'bg-salvia text-pino'
-                    : 'border border-rivera text-ink-soft hover:border-salvia'
-                }`}
-              >
-                {v === 'gasto' ? 'Salidas' : 'Ingresos'}
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-4 flex items-end justify-between gap-3">
+          <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-sm text-ink-soft">
-                Total de {view === 'gasto' ? 'salidas' : 'ingresos'} de {periodLabel}
+                Balance de {periodLabel}
                 {effMode === 'mes' && y !== ty ? ` ${y}` : ''}
               </p>
-              <p className="mt-1 font-tag text-5xl leading-none text-crema">
-                ${wholeFmt}
-                <span className="align-top text-xl text-ink-soft">{cents}</span>
+              <p
+                className={`mt-1 font-tag text-5xl leading-none ${totals.balance >= 0 ? 'text-crema' : 'text-red-400'}`}
+              >
+                {balanceFmt}
               </p>
+              <p className="mt-1 text-xs text-ink-soft">Ingresos menos egresos</p>
             </div>
             <div className="flex gap-2">
               <button aria-label="Anterior" onClick={() => shift(-1)} className={arrowCls}>
@@ -344,35 +332,69 @@ export function AdminMovements({ today }: { today: string }) {
             </div>
           </div>
 
-          <div className="mt-5 flex items-center gap-5">
+          <dl className="mt-5 space-y-2 border-t border-rivera pt-4 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-ink-soft">Ingresos</dt>
+              <dd className="font-semibold text-salvia">{fmt(totals.ingresos)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-ink-soft">Egresos</dt>
+              <dd className="font-semibold text-red-400">{fmt(totals.gastos)}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div className="mt-4 rounded-xl border border-rivera bg-pino p-5">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
+              Por categoría
+            </p>
+            <div className="flex gap-2 text-xs font-semibold">
+              {(['gasto', 'ingreso'] as const).map((v) => (
+                <button
+                  key={v}
+                  onClick={() => setView(v)}
+                  className={`rounded-full px-3 py-1 transition ${
+                    view === v
+                      ? 'bg-salvia text-pino'
+                      : 'border border-rivera text-ink-soft hover:border-salvia'
+                  }`}
+                >
+                  {v === 'gasto' ? 'Egresos' : 'Ingresos'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-center gap-5">
             <Donut data={byCategory} />
             <p className="text-xs text-ink-soft">
               {byCategory.length === 0
                 ? 'Sin movimientos en este período.'
-                : `Balance del período: ${fmt(totals.balance)}`}
+                : `Total de ${view === 'gasto' ? 'egresos' : 'ingresos'}: ${fmt(viewTotal)}`}
             </p>
           </div>
 
-          <ul className="mt-4 divide-y divide-rivera/60">
-            {byCategory.map((c) => (
-              <li key={c.label} className="flex items-center gap-3 py-3">
-                <span
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold uppercase text-pino"
-                  style={{ background: c.color }}
-                >
-                  {c.label[0]}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium capitalize text-crema">{c.label}</p>
-                  <p className="text-xs text-ink-soft">
-                    {Math.round((c.value / viewTotal) * 100)}% de{' '}
-                    {view === 'gasto' ? 'las salidas' : 'los ingresos'}
-                  </p>
-                </div>
-                <span className="font-semibold text-crema">{fmt(c.value)}</span>
-              </li>
-            ))}
-          </ul>
+  <ul className="mt-4 divide-y divide-rivera/60">
+    {byCategory.map((c) => (
+      <li key={c.label} className="flex items-center gap-3 py-3">
+        <span
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold uppercase text-pino"
+          style={{ background: c.color }}
+        >
+          {c.label[0]}
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-medium capitalize text-crema">{c.label}</p>
+          <p className="text-xs text-ink-soft">
+            {Math.round((c.value / viewTotal) * 100)}% de{' '}
+            {view === 'gasto' ? 'los egresos' : 'los ingresos'}
+          </p>
+        </div>
+        <span className="font-semibold text-crema">{fmt(c.value)}</span>
+      </li>
+    ))}
+  </ul>
         </div>
 
         {effMode === 'año' && (
@@ -401,22 +423,6 @@ export function AdminMovements({ today }: { today: string }) {
           </div>
         )}
 
-        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-lg border border-rivera bg-pino p-3">
-            <p className="text-xs text-ink-soft">Ingresos</p>
-            <p className="font-tag text-xl text-salvia">{fmt(totals.ingresos)}</p>
-          </div>
-          <div className="rounded-lg border border-rivera bg-pino p-3">
-            <p className="text-xs text-ink-soft">Gastos</p>
-            <p className="font-tag text-xl text-red-400">{fmt(totals.gastos)}</p>
-          </div>
-          <div className="rounded-lg border border-rivera bg-pino p-3">
-            <p className="text-xs text-ink-soft">Balance</p>
-            <p className={`font-tag text-xl ${totals.balance >= 0 ? 'text-crema' : 'text-red-400'}`}>
-              {fmt(totals.balance)}
-            </p>
-          </div>
-        </div>
 
         <ul className="mt-4 space-y-2">
           {rows.map((mv) => (
